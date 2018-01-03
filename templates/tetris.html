@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="static/foundation.min.css" type="text/css"/>
+    <link rel="stylesheet" href="static/tetris.css" type="text/css"/>
+    <script src="static/tetris.js"></script>
+    <script src="static/foundation.min.js"></script>
+
+    <title> Tetromino </title>
+  </head>
+
+  <body>
+    <div class="board">
+      {% for i in range(20) %} <div class="grid-x">
+        {% for j in range(10) %} <div class="small-1 cell"> cell </div>
+        {% endfor %} </div>
+      {% endfor %}
+    </div>
+  </body>
+
+</html>

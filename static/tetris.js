@@ -37,14 +37,13 @@ var create_tetrominoL = function() {
 
 // Creation wrapper function
 var create_tetromino = function() {
-    switch (Math.random() * 7)
-    case 0: return create_tetromino_I();
-    case 1: return create_tetromino_O();
-    case 2: return create_tetromino_T();
-    case 3: return create_tetromino_S();
-    case 4: return create_tetromino_Z();
-    case 5: return create_tetromino_J();
-    case 6: return create_tetromino_L();
+  switch (Math.random() * 7) {
+  case 0: return create_tetromino_I();
+  case 1: return create_tetromino_O();
+  case 2: return create_tetromino_T();
+  case 3: return create_tetromino_S();
+  case 4: return create_tetromino_Z();
+  case 5: return create_tetromino_J();
+  case 6: return create_tetromino_L();
+  }
 };
-
-
