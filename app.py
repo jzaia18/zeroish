@@ -7,11 +7,26 @@ app = Flask(__name__)
 def root():
     return "root"
 
-
 #temp for testing
-@app.route("/tetris")
+@app.route("/playgame")
 def tetris():
-    return render_template("tetris.html")
+    return render_template("playgame.html")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/acc")
+def acc():
+    return render_template("createacc.html")
+
+@app.route("/profile")
+def acc():
+    return render_template("profile.html")
+
+@app.route("/highscores")
+def high():
+    return render_template("highscores.html")
 
 
 if __name__ == "__main__":
