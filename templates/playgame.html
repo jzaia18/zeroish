@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="static/foundation.min.css" type="text/css"/>
+    <link rel="stylesheet" href="static/tetris.css" type="text/css"/>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script src="static/foundation.min.js"></script>
+    <script src="static/tetris.js"></script>
+
+    <title> Tetromino </title>
+  </head>
+
+  <body>
+    <div class="board" id="board">
+      {% for i in range(20) %} <div class="grid-x">
+      {% for j in range(10) %} <div class="small-1 cell pixel" id="xy{{j}}-{{i}}" style="background: #00{{i%10}}0{{j}}0;"> cell </div>
+      {% endfor %} </div>
+      {% endfor %}
+    </div>
+  </body>
+
+</html>

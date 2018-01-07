@@ -21,7 +21,7 @@ def acc():
     return render_template("createacc.html")
 
 @app.route("/profile")
-def acc():
+def profile():
     return render_template("profile.html")
 
 @app.route("/highscores")

@@ -1,4 +1,10 @@
 .board {
-    height: 400px;
+    height: 800px;
     width: 400px;
+    background: gray;
+}
+
+.pixel{
+    height: 40px;
+    width: 40px;
 }
