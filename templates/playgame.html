@@ -9,18 +9,21 @@
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
     <script src="static/foundation.min.js"></script>
-    <script src="static/tetris.js"></script>
 
     <title> Tetromino </title>
   </head>
 
   <body>
-    <div class="board" id="board">
-      {% for i in range(20) %} <div class="grid-x">
-      {% for j in range(10) %} <div class="small-1 cell pixel" id="xy{{j}}-{{i}}" style="background: #00{{i%10}}0{{j}}0;"> cell </div>
-      {% endfor %} </div>
-      {% endfor %}
+    <center> <!-- this is temp -->
+    <div class="game">
+      <div class="board">
+        {% for i in range(20) %} <div class="grid-x">
+        {% for j in range(10) %} <div class="small-1 cell pixel" id="xy{{j}}-{{i}}"> </div>
+        {% endfor %} </div>
+        {% endfor %}
+      </div>
+      <div class="game_start"> Press Space to start </div>
     </div>
+    <script src="static/tetris.js"></script>
   </body>
-
 </html>

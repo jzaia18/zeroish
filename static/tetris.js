@@ -1,37 +1,33 @@
-
-// Adds most variables to tetromino object
-var create_tetromino_helper = function(t) {
-    //might be unneeded
-};
+// =============================== Block functions ===============================
 
 // Different "constructors" for each shape
 
 var create_tetromino_I = function() {
-    return {x1:0, y1:0, x2:1, y2:0, x3:2, y3:0, x4:3, y4:0};
+  return {x1:3, y1:0, x2:4, y2:0, x3:5, y3:0, x4:6, y4:0, color:'#00FFFF'};
 };
 
 var create_tetromino_O = function() {
-    return {x1:0, y1:0, x2:1, y2:0, x3:0, y3:1, x4:1, y4:1};
+  return {x1:4, y1:0, x2:4, y2:1, x3:5, y3:0, x4:5, y4:1, color:'#FFFF00'};
 };
 
 var create_tetromino_T = function() {
-    return {x1:0, y1:0, x2:1, y2:0, x3:2, y3:0, x4:1, y4:1};
+  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:1, color:'#FF00FF'};
 };
 
 var create_tetromino_S = function() {
-    return {x1:0, y1:0, x2:1, y2:0, x3:1, y3:1, x4:2, y4:1};
+  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:0, color:'#00FF00'};
 };
 
 var create_tetromino_Z = function() {
-    return {x1:0, y1:1, x2:1, y2:0, x3:1, y3:1, x4:2, y4:0};
+  return {x1:3, y1:0, x2:4, y2:0, x3:4, y3:1, x4:5, y4:1, color:'#FF0000'};
 };
 
 var create_tetromino_J = function() {
-    return {x1:0, y1:0, x2:1, y2:0, x3:2, y3:0, x4:0, y4:1};
+  return {x1:3, y1:0, x2:3, y2:1, x3:4, y3:1, x4:5, y4:1, color:'#0000FF'};
 };
 
 var create_tetromino_L = function() {
-    return {x1:0, y1:0, x2:1, y2:0, x3:2, y3:0, x4:2, y4:1};
+  return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1, x4:5, y4:0, color:'#FF9900'};
 };
 
 
@@ -48,15 +44,131 @@ var create_tetromino = function() {
   }
 };
 
-var test = function(e) {
-  console.log(e);
+
+// =============================== Board functions ===============================
+
+var get_pixel = function(x, y) {
+  document.getElementById('xy' + x + '-' + y).getAttribute('style');
+};
+
+var set_pixel = function(x, y, color) {
+  if (color != null)
+    document.getElementById('xy' + x + '-' + y).setAttribute('style', 'background: ' + color);
+  else
+    document.getElementById('xy' + x + '-' + y).setAttribute('style', null);
+};
+
+var clear_board = function() {
+  for (i = 0; i < 20; i++) {
+    for (j = 0; j < 10; j++) {
+      set_pixel(j, i, null);
+    }
+  }
+};
+
+// =============================== Piece movement functions ===============================
+
+var clear_piece = function() {
+  set_pixel(curr_piece.x1, curr_piece.y1, null);
+  set_pixel(curr_piece.x2, curr_piece.y2, null);
+  set_pixel(curr_piece.x3, curr_piece.y3, null);
+  set_pixel(curr_piece.x4, curr_piece.y4, null);
+};
+
+var display_piece = function() {
+  set_pixel(curr_piece.x1, curr_piece.y1, curr_piece.color);
+  set_pixel(curr_piece.x2, curr_piece.y2, curr_piece.color);
+  set_pixel(curr_piece.x3, curr_piece.y3, curr_piece.color);
+  set_pixel(curr_piece.x4, curr_piece.y4, curr_piece.color);
+};
+
+var gravity = function() {
+  if (curr_piece.y1 >= 19 || curr_piece.y1 >= 19 || curr_piece.y1 >= 19 || curr_piece.y1 >= 19)
+    game_over();
+  else {
+    clear_piece();
+    curr_piece.y1++; curr_piece.y2++; curr_piece.y3++; curr_piece.y4++; //gravity
+    display_piece();
+    play_game();
+  }
+};
+
+var lateral_move = function(dir) {
+  if (debugging) console.log('moving ' + dir);
+  var xs = [curr_piece.x1, curr_piece.x2, curr_piece.x3, curr_piece.x4]; //all x co-ords
+  var ys = [curr_piece.y1, curr_piece.y2, curr_piece.y3, curr_piece.y4]; //all y co-ords
+
+  clear_piece();
+  if (dir == 'ArrowRight' && xs[0] < 9 && xs[1] < 9 && xs[2] < 9 && xs[3] < 9) { // if not touching the border
+    if ( !(get_pixel(xs[0]+1, ys[0]) || get_pixel(xs[1]+1, ys[1]) || get_pixel(xs[2]+1, ys[2]) || get_pixel(xs[3]+1, ys[3]))) { //if not being blocked
+      curr_piece.x1++; curr_piece.x2++; curr_piece.x3++; curr_piece.x4++; }
+  }
+
+  else if (dir == 'ArrowLeft' && xs[0] > 0 && xs[1] > 0 && xs[2] > 0 && xs[3] > 0) { // if not touching the border
+    if ( !(get_pixel(xs[0]-1, ys[0]) || get_pixel(xs[1]-1, ys[1]) || get_pixel(xs[2]-1, ys[2]) || get_pixel(xs[3]-1, ys[3]))) { //if not being blocked
+      curr_piece.x1--; curr_piece.x2--; curr_piece.x3--; curr_piece.x4--; }
+  }
+  display_piece();
 };
 
 
-var board = document.getElementsByClassName('board');
-console.log(board);
-console.log(board[0]);
-console.log(board);
-console.log(board.length);
-console.log(board);
-board[0].addEventListener("keydown", test);
+// =============================== Game progression functions ===============================
+
+var start_game = function() {
+  game_started = true;
+  document.getElementsByClassName('game_start')[0].innerHTML = "Good luck!";
+  clear_board();
+  curr_piece = create_tetromino();
+  display_piece();
+  play_game();
+};
+
+var game_over = function() {
+  document.getElementsByClassName('game_start')[0].innerHTML = "Press Space to play again";
+  clearTimeout(gravity_timer);
+  game_started = false;
+};
+
+var play_game = function() {
+  if (game_started) {
+    if (curr_piece == null)
+      curr_piece = create_tetromino();
+    display_piece();
+    if (debugging) console.log(curr_piece);
+    gravity_timer = setTimeout(gravity, 1000);
+  }
+};
+
+var button_press = function(e) {
+  if (debugging) {
+    console.log(e);
+    console.log(curr_piece); }
+
+  switch(e.code) {
+  case 'Escape':
+    game_over();
+    break;
+  case 'ArrowLeft':
+  case 'ArrowRight':
+    lateral_move(e.code);
+    break;
+  }
+
+
+  if (!game_started) {
+    if (e.code == "Space")
+      start_game();
+    else
+      return;
+  }
+};
+
+
+// =============================== Setup & run ===============================
+
+var debugging = true;
+
+var gravity_timer;
+var game_started = false;
+var curr_piece = null;
+document.addEventListener("keydown", button_press);

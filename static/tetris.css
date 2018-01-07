@@ -1,10 +1,24 @@
-.board {
-    height: 800px;
-    width: 400px;
-    background: gray;
+.game {
+    width: 100%;
 }
 
-.pixel{
-    height: 40px;
-    width: 40px;
+.board {
+    height: 40vw;
+    width: 20vw;
+    background: #dddddd;
+}
+
+.pixel {
+    height: 2vw;
+    width: 2vw;
+    background: #999999;
+    border: 1px solid black;
+}
+.game_start {
+    text-align: center;
+    background: lightsteelblue;
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 2vw;
+    width: 20vw;
 }
