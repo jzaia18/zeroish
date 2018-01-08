@@ -48,14 +48,22 @@ var create_tetromino = function() {
 // =============================== Board functions ===============================
 
 var get_pixel = function(x, y) {
-  document.getElementById('xy' + x + '-' + y).getAttribute('style');
+  if (x >= 10 || y >= 20)
+    return undefined;
+  var pixel = 'xy' + x + '-' + y;
+  var ret = document.getElementById(pixel).getAttribute('style');
+  if (debugging) console.log('get_pixel:' + ret);
+  return ret;
 };
 
 var set_pixel = function(x, y, color) {
+  if (x >= 10 || y >= 20)
+    return;
+  var pixel = 'xy' + x + '-' + y;
   if (color != null)
-    document.getElementById('xy' + x + '-' + y).setAttribute('style', 'background: ' + color);
+    document.getElementById(pixel).setAttribute('style', 'background: ' + color);
   else
-    document.getElementById('xy' + x + '-' + y).setAttribute('style', null);
+    document.getElementById(pixel).removeAttribute('style');
 };
 
 var clear_board = function() {
@@ -83,14 +91,20 @@ var display_piece = function() {
 };
 
 var gravity = function() {
-  if (curr_piece.y1 >= 19 || curr_piece.y1 >= 19 || curr_piece.y1 >= 19 || curr_piece.y1 >= 19)
-    game_over();
+  clear_piece(); //must happen 1st or it could cause collision problems
+  if (curr_piece.y1 >= 19 || curr_piece.y2 >= 19 || curr_piece.y3 >= 19 || curr_piece.y4 >= 19 ||
+      get_pixel(curr_piece.x1, curr_piece.y1+1) || get_pixel(curr_piece.x2, curr_piece.y2+1) || get_pixel(curr_piece.x3, curr_piece.y3+1) || get_pixel(curr_piece.x4, curr_piece.y4+1)) { //if not being blocked
+    display_piece();
+    curr_piece = create_tetromino(); //make a new piece
+  }
+
+  // TODO: gameover
+
   else {
-    clear_piece();
     curr_piece.y1++; curr_piece.y2++; curr_piece.y3++; curr_piece.y4++; //gravity
     display_piece();
-    play_game();
   }
+  play_game();
 };
 
 var lateral_move = function(dir) {
@@ -98,7 +112,7 @@ var lateral_move = function(dir) {
   var xs = [curr_piece.x1, curr_piece.x2, curr_piece.x3, curr_piece.x4]; //all x co-ords
   var ys = [curr_piece.y1, curr_piece.y2, curr_piece.y3, curr_piece.y4]; //all y co-ords
 
-  clear_piece();
+  clear_piece(); //must happen 1st or it could cause collision problems
   if (dir == 'ArrowRight' && xs[0] < 9 && xs[1] < 9 && xs[2] < 9 && xs[3] < 9) { // if not touching the border
     if ( !(get_pixel(xs[0]+1, ys[0]) || get_pixel(xs[1]+1, ys[1]) || get_pixel(xs[2]+1, ys[2]) || get_pixel(xs[3]+1, ys[3]))) { //if not being blocked
       curr_piece.x1++; curr_piece.x2++; curr_piece.x3++; curr_piece.x4++; }
@@ -124,6 +138,7 @@ var start_game = function() {
 };
 
 var game_over = function() {
+  alert("game over :c");
   document.getElementsByClassName('game_start')[0].innerHTML = "Press Space to play again";
   clearTimeout(gravity_timer);
   game_started = false;
@@ -135,13 +150,13 @@ var play_game = function() {
       curr_piece = create_tetromino();
     display_piece();
     if (debugging) console.log(curr_piece);
-    gravity_timer = setTimeout(gravity, 1000);
+    gravity_timer = setTimeout(gravity, 500); //1 sec to fall
   }
 };
 
 var button_press = function(e) {
   if (debugging) {
-    console.log(e);
+    console.log('button push:' + e.code);
     console.log(curr_piece); }
 
   switch(e.code) {
