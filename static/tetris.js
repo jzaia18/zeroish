@@ -47,6 +47,17 @@ var create_tetromino = function() {
 
 // =============================== Board functions ===============================
 
+var check_row = function(y) { //returns true if row is full
+  for (var x = 0; x < 10; x++ )
+    if (! get_pixel(x, y))
+        return false;
+    return true;
+};
+
+var clear_row = function(y) {
+
+};
+
 var get_pixel = function(x, y) {
   if (x >= 10 || y >= 20)
     return undefined;
@@ -182,6 +193,8 @@ var button_press = function(e) {
 // =============================== Setup & run ===============================
 
 var debugging = true;
+var level = 1;
+var score = 0;
 
 var gravity_timer;
 var game_started = false;
