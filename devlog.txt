@@ -1,0 +1,18 @@
+adeeburR -- 2017-12-15 14:35:47
+created basic app structure
+
+cynthiaC, ishM, adeeburR, jakeZ -- 2017-12-21 23:15:12
+created design document
+
+jakeZ -- 2018-01-02 19:19:08
+created basic tetromino creation
+
+adeeburR -- 2018-01-07 12:40:47
+debugged some html / javascript
+
+jakeZ -- 2018-01-07 16:13:11
+added ability to move pieces side to side
+
+jakeZ -- 2018-01-07 22:50:56
+added piling mechanic
+
