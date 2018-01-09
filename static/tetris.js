@@ -46,18 +46,6 @@ var create_tetromino = function() {
 
 
 // =============================== Board functions ===============================
-
-var check_row = function(y) { //returns true if row is full
-  for (var x = 0; x < 10; x++ )
-    if (! get_pixel(x, y))
-        return false;
-    return true;
-};
-
-var clear_row = function(y) {
-
-};
-
 var get_pixel = function(x, y) {
   if (x >= 10 || y >= 20)
     return undefined;
@@ -77,9 +65,37 @@ var set_pixel = function(x, y, color) {
     document.getElementById(pixel).removeAttribute('style');
 };
 
+
+var check_row = function(y) { //returns true if row is full
+  for (var x = 0; x < 10; x++ )
+    if (! get_pixel(x, y))
+        return false;
+    return true;
+};
+
+var clear_rows = function(rows) {
+  if (debugging) console.log("Trying to clear rows...");
+  for (var y = 0; y < rows; y++)
+    if (check_row(y))
+      move_down(y, rows);
+};
+
+
+var move_down = function(start, rows) { //moves all blocks downa after row clear
+  score += 100;
+  for (var i = 0; i < 10; i++)
+    set_pixel(i, start, null);
+
+  for (var y = start; y < rows - 1; y--)
+    for (var x = 0; x < 10; x++)
+      set_pixel(x, y, get_pixel(x, y-1));
+  for (x = 0; x < 10; x++)
+    set_pixel(x, 0, null);
+};
+
 var clear_board = function() {
-  for (i = 0; i < 20; i++) {
-    for (j = 0; j < 10; j++) {
+  for (var i = 0; i < 20; i++) {
+    for (var j = 0; j < 10; j++) {
       set_pixel(j, i, null);
     }
   }
@@ -114,6 +130,7 @@ var gravity = function() {
   else {
     curr_piece.y1++; curr_piece.y2++; curr_piece.y3++; curr_piece.y4++; //gravity
     display_piece();
+    clear_rows(20); //IN TESTING
   }
   play_game();
 };
