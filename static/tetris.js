@@ -3,31 +3,31 @@
 // Different "constructors" for each shape
 
 var create_tetromino_I = function() {
-  return {x1:3, y1:0, x2:4, y2:0, x3:5, y3:0, x4:6, y4:0, color:'#00FFFF'};
+  return {x1:3, y1:0, x2:4, y2:0, x3:5, y3:0, x4:6, y4:0, color:'#00FFFF', shape:'I', orientation:0};
 };
 
 var create_tetromino_O = function() {
-  return {x1:4, y1:0, x2:4, y2:1, x3:5, y3:0, x4:5, y4:1, color:'#FFFF00'};
+  return {x1:4, y1:0, x2:4, y2:1, x3:5, y3:0, x4:5, y4:1, color:'#FFFF00', shape:'O', orientation:0};
 };
 
 var create_tetromino_T = function() {
-  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:1, color:'#FF00FF'};
+  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:1, color:'#FF00FF', shape:'T', orientation:0};
 };
 
 var create_tetromino_S = function() {
-  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:0, color:'#00FF00'};
+  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:0, color:'#00FF00', shape:'S', orientation:0};
 };
 
 var create_tetromino_Z = function() {
-  return {x1:3, y1:0, x2:4, y2:0, x3:4, y3:1, x4:5, y4:1, color:'#FF0000'};
+  return {x1:3, y1:0, x2:4, y2:0, x3:4, y3:1, x4:5, y4:1, color:'#FF0000', shape:'Z', orientation:0};
 };
 
 var create_tetromino_J = function() {
-  return {x1:3, y1:0, x2:3, y2:1, x3:4, y3:1, x4:5, y4:1, color:'#0000FF'};
+  return {x1:3, y1:0, x2:3, y2:1, x3:4, y3:1, x4:5, y4:1, color:'#0000FF', shape:'J', orientation:0};
 };
 
 var create_tetromino_L = function() {
-  return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1, x4:5, y4:0, color:'#FF9900'};
+  return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1, x4:5, y4:0, color:'#FF9900', shape:'L', orientation:0};
 };
 
 
@@ -43,6 +43,45 @@ var create_tetromino = function() {
   case 6: return create_tetromino_L();
   }
 };
+
+var rotate_piece = function() {
+  var coor1_change = [0,0];
+  var coor2_change = [0,0];
+  var coor3_change = [0,0];
+  var coor4_change = [0,0];
+
+  switch(curr_piece.shape) {
+  case 'O':
+    return;
+  case 'I':
+    if (curr_piece.orientation %2 == 0) {
+      coor1_change = [1, -3];
+      coor2_change = [0, -2];
+      coor3_change = [-1, -1];
+      coor4_change = [-2, 0];
+    }
+    else {
+      coor1_change = [-1, 3];
+      coor2_change = [0, 2];
+      coor3_change = [1, 1];
+      coor4_change = [2, 0];
+    }
+  }
+
+//UNTESTED
+
+  curr_piece.x1 += coor1_change[0];
+  curr_piece.y1 += coor1_change[1];
+  curr_piece.x2 += coor2_change[0];
+  curr_piece.y2 += coor2_change[1];
+  curr_piece.x3 += coor3_change[0];
+  curr_piece.y3 += coor3_change[1];
+  curr_piece.x4 += coor4_change[0];
+  curr_piece.y4 += coor4_change[1];
+
+
+};
+
 
 
 // =============================== Board functions ===============================
