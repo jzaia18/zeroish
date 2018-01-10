@@ -47,16 +47,17 @@ var create_tetromino = function() {
 
 // =============================== Board functions ===============================
 var get_pixel = function(x, y) {
-  if (x >= 10 || y >= 20)
+  if (x >= 10 || y >= 20 || x < 0 || y < 0)
     return undefined;
   var pixel = 'xy' + x + '-' + y;
   var ret = document.getElementById(pixel).getAttribute('style');
-  if (debugging) console.log('get_pixel:' + ret);
-  return ret;
+  if (ret)
+    return ret.substring(ret.indexOf('#')); // return only the color
+  return ret; // or null
 };
 
 var set_pixel = function(x, y, color) {
-  if (x >= 10 || y >= 20)
+  if (x >= 10 || y >= 20 || x < 0 || y < 0)
     return;
   var pixel = 'xy' + x + '-' + y;
   if (color != null)
@@ -70,7 +71,7 @@ var check_row = function(y) { //returns true if row is full
   for (var x = 0; x < 10; x++ )
     if (! get_pixel(x, y))
         return false;
-    return true;
+  return true;
 };
 
 var clear_rows = function(rows) {
@@ -83,14 +84,15 @@ var clear_rows = function(rows) {
 
 var move_down = function(start, rows) { //moves all blocks downa after row clear
   score += 100;
-  for (var i = 0; i < 10; i++)
-    set_pixel(i, start, null);
+  console.log('Moving rows down, starting at ' + start);
 
-  for (var y = start; y < rows - 1; y--)
+  for (var y = start; y > 0; y--) { //shift all rows above down
     for (var x = 0; x < 10; x++)
       set_pixel(x, y, get_pixel(x, y-1));
-  for (x = 0; x < 10; x++)
-    set_pixel(x, 0, null);
+  }
+
+  for (x = 0; x < 10; x++) //clear top row (to prevent copying)
+     set_pixel(x, 0, null);
 };
 
 var clear_board = function() {
@@ -122,6 +124,7 @@ var gravity = function() {
   if (curr_piece.y1 >= 19 || curr_piece.y2 >= 19 || curr_piece.y3 >= 19 || curr_piece.y4 >= 19 ||
       get_pixel(curr_piece.x1, curr_piece.y1+1) || get_pixel(curr_piece.x2, curr_piece.y2+1) || get_pixel(curr_piece.x3, curr_piece.y3+1) || get_pixel(curr_piece.x4, curr_piece.y4+1)) { //if not being blocked
     display_piece();
+    clear_rows(20); //IN TESTING
     curr_piece = create_tetromino(); //make a new piece
   }
 
@@ -130,7 +133,6 @@ var gravity = function() {
   else {
     curr_piece.y1++; curr_piece.y2++; curr_piece.y3++; curr_piece.y4++; //gravity
     display_piece();
-    clear_rows(20); //IN TESTING
   }
   play_game();
 };
@@ -141,12 +143,12 @@ var lateral_move = function(dir) {
   var ys = [curr_piece.y1, curr_piece.y2, curr_piece.y3, curr_piece.y4]; //all y co-ords
 
   clear_piece(); //must happen 1st or it could cause collision problems
-  if (dir == 'ArrowRight' && xs[0] < 9 && xs[1] < 9 && xs[2] < 9 && xs[3] < 9) { // if not touching the border
+  if ((dir == 'ArrowRight' || dir == 'KeyD' ) && xs[0] < 9 && xs[1] < 9 && xs[2] < 9 && xs[3] < 9) { // if not touching the border
     if ( !(get_pixel(xs[0]+1, ys[0]) || get_pixel(xs[1]+1, ys[1]) || get_pixel(xs[2]+1, ys[2]) || get_pixel(xs[3]+1, ys[3]))) { //if not being blocked
       curr_piece.x1++; curr_piece.x2++; curr_piece.x3++; curr_piece.x4++; }
   }
 
-  else if (dir == 'ArrowLeft' && xs[0] > 0 && xs[1] > 0 && xs[2] > 0 && xs[3] > 0) { // if not touching the border
+  else if ((dir == 'ArrowLeft' || dir == 'KeyA' ) && xs[0] > 0 && xs[1] > 0 && xs[2] > 0 && xs[3] > 0) { // if not touching the border
     if ( !(get_pixel(xs[0]-1, ys[0]) || get_pixel(xs[1]-1, ys[1]) || get_pixel(xs[2]-1, ys[2]) || get_pixel(xs[3]-1, ys[3]))) { //if not being blocked
       curr_piece.x1--; curr_piece.x2--; curr_piece.x3--; curr_piece.x4--; }
   }
@@ -158,7 +160,8 @@ var lateral_move = function(dir) {
 
 var start_game = function() {
   game_started = true;
-  document.getElementsByClassName('game_start')[0].innerHTML = "Good luck!";
+  score = 0;
+  document.getElementsByClassName('game_start')[0].innerHTML = 'Good luck! Press Escape to quit.';
   clear_board();
   curr_piece = create_tetromino();
   display_piece();
@@ -166,10 +169,17 @@ var start_game = function() {
 };
 
 var game_over = function() {
-  alert("game over :c");
-  document.getElementsByClassName('game_start')[0].innerHTML = "Press Space to play again";
+  alert('Game over. You scored ' + score + '.');
+  document.getElementsByClassName('game_start')[0].innerHTML = 'Press Space to play again';
   clearTimeout(gravity_timer);
   game_started = false;
+};
+
+var get_fall_time = function() {
+  if (debug_falling)
+    return 100;
+  else
+    return 500; //TODO: implement diff speeds based on level
 };
 
 var play_game = function() {
@@ -178,13 +188,13 @@ var play_game = function() {
       curr_piece = create_tetromino();
     display_piece();
     if (debugging) console.log(curr_piece);
-    gravity_timer = setTimeout(gravity, 500); //1 sec to fall
+    gravity_timer = setTimeout(gravity, get_fall_time());
   }
 };
 
 var button_press = function(e) {
   if (debugging) {
-    console.log('button push:' + e.code);
+    console.log('button push: ' + e.code);
     console.log(curr_piece); }
 
   switch(e.code) {
@@ -193,13 +203,15 @@ var button_press = function(e) {
     break;
   case 'ArrowLeft':
   case 'ArrowRight':
+  case 'KeyA':
+  case 'KeyD':
     lateral_move(e.code);
     break;
   }
 
 
   if (!game_started) {
-    if (e.code == "Space")
+    if (e.code == 'Space')
       start_game();
     else
       return;
@@ -209,7 +221,9 @@ var button_press = function(e) {
 
 // =============================== Setup & run ===============================
 
-var debugging = true;
+var debugging = true; //verbose function output
+var debug_falling = true; // forces pieces to move differently
+
 var level = 1;
 var score = 0;
 
