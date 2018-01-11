@@ -11,7 +11,7 @@ var create_tetromino_O = function() {
 };
 
 var create_tetromino_T = function() {
-  return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:1, color:'#FF00FF', shape:'T', orientation:0};
+  return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1, x4:4, y4:0, color:'#FF00FF', shape:'T', orientation:0};
 };
 
 var create_tetromino_S = function() {
@@ -33,28 +33,50 @@ var create_tetromino_L = function() {
 
 // Creation wrapper function
 var create_tetromino = function() {
+  var t;
   switch (Math.floor(Math.random() * 7)) {
-  case 0: return create_tetromino_I();
-  case 1: return create_tetromino_O();
-  case 2: return create_tetromino_T();
-  case 3: return create_tetromino_S();
-  case 4: return create_tetromino_Z();
-  case 5: return create_tetromino_J();
-  case 6: return create_tetromino_L();
+  case 0: t = create_tetromino_I(); break;
+  case 1: t = create_tetromino_O(); break;
+  case 2: t = create_tetromino_T(); break;
+  case 3: t = create_tetromino_S(); break;
+  case 4: t = create_tetromino_Z(); break;
+  case 5: t = create_tetromino_J(); break;
+  case 6: t = create_tetromino_L(); break;
   }
+  if (get_pixel(t.x1, t.y1) || get_pixel(t.x2, t.y2) || get_pixel(t.x3, t.y3) || get_pixel(t.x4, t.y4))
+    return game_over();
+  return t;
+};
+
+var do_rotation = function(coor1, coor2, coor3, coor4) {
+  // TODO: check for legal moves (that could be a big problem)
+  curr_piece.x1 += coor1[0];
+  curr_piece.y1 += coor1[1];
+  curr_piece.x2 += coor2[0];
+  curr_piece.y2 += coor2[1];
+  curr_piece.x3 += coor3[0];
+  curr_piece.y3 += coor3[1];
+  curr_piece.x4 += coor4[0];
+  curr_piece.y4 += coor4[1];
+  curr_piece.orientation = (curr_piece.orientation + 1) %4;
 };
 
 var rotate_piece = function() {
+  // These numbers will be added to the coords [x,y]
   var coor1_change = [0,0];
   var coor2_change = [0,0];
   var coor3_change = [0,0];
   var coor4_change = [0,0];
 
+  var s = curr_piece.orientation; //to save space
+
+  clear_piece();
+
   switch(curr_piece.shape) {
   case 'O':
-    return;
+    break;
   case 'I':
-    if (curr_piece.orientation %2 == 0) {
+    if (s %2 == 0) {
       coor1_change = [1, -3];
       coor2_change = [0, -2];
       coor3_change = [-1, -1];
@@ -66,20 +88,119 @@ var rotate_piece = function() {
       coor3_change = [1, 1];
       coor4_change = [2, 0];
     }
+    break;
+  case 'L':
+    if (s==0) {
+      coor1_change = [1, -2];
+      coor2_change = [0, -1];
+      coor3_change = [-1, 0];
+      coor4_change = [0, 1];
+    }
+    else if (s==1) {
+      coor1_change = [1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [-1, -1];
+      coor4_change = [-2, 0];
+    }
+    else if (s==2) {
+      coor1_change = [-1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [1, -1];
+      coor4_change = [0, -2];
+    }
+    else if (s==3){
+      coor1_change = [-1, 0];
+      coor2_change = [0, 1];
+      coor3_change = [1, 2];
+      coor4_change = [2, 1];
+    }
+    break;
+  case 'J':
+    if (s==0) {
+      coor1_change = [2, -1];
+      coor2_change = [1, -2];
+      coor3_change = [0, -1];
+      coor4_change = [-1, 0];
+    }
+    else if (s==1) {
+      coor1_change = [0, 2];
+      coor2_change = [1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [-1, -1];
+    }
+    else if (s==2) {
+      coor1_change = [-2, 0];
+      coor2_change = [-1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [1, -1];
+    }
+    else if (s==3) {
+      coor1_change = [0, -1];
+      coor2_change = [-1, 0];
+      coor3_change = [0, 1];
+      coor4_change = [1, 2];
+    }
+    break;
+  case 'S':
+    if (s %2 == 0) {
+      coor1_change = [0, -2];
+      coor2_change = [-1, -1];
+      coor3_change = [0, 0];
+      coor4_change = [-1, 1];
+    }
+    else {
+      coor1_change = [0, 2];
+      coor2_change = [1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [1, -1];
+    }
+    break;
+  case 'Z':
+    if (s %2 == 0) {
+      coor1_change = [2, -1];
+      coor2_change = [1, 0];
+      coor3_change = [0, -1];
+      coor4_change = [-1, 0];
+    }
+    else {
+      coor1_change = [-2, 1];
+      coor2_change = [-1, 0];
+      coor3_change = [0, 1];
+      coor4_change = [1, 0];
+    }
+    break;
+  case 'T':
+    if (s==0) {
+      coor1_change = [0, -2];
+      coor2_change = [-1, -1];
+      coor3_change = [-2, 0];
+      coor4_change = [0, 0];
+    }
+    else if (s==1) {
+      coor1_change = [2, 1];
+      coor2_change = [1, 0];
+      coor3_change = [0, -1];
+      coor4_change = [0, 1];
+    }
+    else if (s==2) {
+      coor1_change = [0, 1];
+      coor2_change = [1, 0];
+      coor3_change = [2, -1];
+      coor4_change = [0, -1];
+    }
+    else if (s==3) {
+      coor1_change = [-2, 0];
+      coor2_change = [-1, 1];
+      coor3_change = [0, 2];
+      coor4_change = [0, 0];
+    }
+    break;
   }
 
-//UNTESTED
+  //DOES NOT TEST FOR MOVE VALIDITY
+  do_rotation(coor1_change, coor2_change, coor3_change, coor4_change);
 
-  curr_piece.x1 += coor1_change[0];
-  curr_piece.y1 += coor1_change[1];
-  curr_piece.x2 += coor2_change[0];
-  curr_piece.y2 += coor2_change[1];
-  curr_piece.x3 += coor3_change[0];
-  curr_piece.y3 += coor3_change[1];
-  curr_piece.x4 += coor4_change[0];
-  curr_piece.y4 += coor4_change[1];
-
-
+  display_piece();
 };
 
 
@@ -163,12 +284,9 @@ var gravity = function() {
   if (curr_piece.y1 >= 19 || curr_piece.y2 >= 19 || curr_piece.y3 >= 19 || curr_piece.y4 >= 19 ||
       get_pixel(curr_piece.x1, curr_piece.y1+1) || get_pixel(curr_piece.x2, curr_piece.y2+1) || get_pixel(curr_piece.x3, curr_piece.y3+1) || get_pixel(curr_piece.x4, curr_piece.y4+1)) { //if not being blocked
     display_piece();
-    clear_rows(20); //IN TESTING
+    clear_rows(20);
     curr_piece = create_tetromino(); //make a new piece
   }
-
-  // TODO: gameover
-
   else {
     curr_piece.y1++; curr_piece.y2++; curr_piece.y3++; curr_piece.y4++; //gravity
     display_piece();
@@ -218,7 +336,7 @@ var get_fall_time = function() {
   if (debug_falling)
     return 100;
   else
-    return 500; //TODO: implement diff speeds based on level
+    return 350; //TODO: implement diff speeds based on level
 };
 
 var play_game = function() {
@@ -246,6 +364,9 @@ var button_press = function(e) {
   case 'KeyD':
     lateral_move(e.code);
     break;
+  case 'KeyW':
+  case 'ArrowUp':
+    rotate_piece();
   }
 
 
@@ -260,8 +381,8 @@ var button_press = function(e) {
 
 // =============================== Setup & run ===============================
 
-var debugging = true; //verbose function output
-var debug_falling = true; // forces pieces to move differently
+var debugging = false; //verbose function output
+var debug_falling = false; // forces pieces to move faster
 
 var level = 1;
 var score = 0;
@@ -269,4 +390,5 @@ var score = 0;
 var gravity_timer;
 var game_started = false;
 var curr_piece = null;
+
 document.addEventListener("keydown", button_press);
