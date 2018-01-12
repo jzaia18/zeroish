@@ -49,7 +49,13 @@ var create_tetromino = function() {
 };
 
 var do_rotation = function(coor1, coor2, coor3, coor4) {
-  // TODO: check for legal moves (that could be a big problem)
+  // Check if move is legal
+  if (get_pixel(curr_piece.x1+coor1[0], curr_piece.y1+coor1[1]) ||
+      get_pixel(curr_piece.x2+coor2[0], curr_piece.y2+coor2[1]) ||
+      get_pixel(curr_piece.x3+coor3[0], curr_piece.y3+coor3[1]) ||
+      get_pixel(curr_piece.x4+coor4[0], curr_piece.y4+coor4[1])
+     )
+    return;
   curr_piece.x1 += coor1[0];
   curr_piece.y1 += coor1[1];
   curr_piece.x2 += coor2[0];
@@ -208,7 +214,7 @@ var rotate_piece = function() {
 // =============================== Board functions ===============================
 var get_pixel = function(x, y) {
   if (x >= 10 || y >= 20 || x < 0 || y < 0)
-    return undefined;
+    return true;
   var pixel = 'xy' + x + '-' + y;
   var ret = document.getElementById(pixel).getAttribute('style');
   if (ret)
