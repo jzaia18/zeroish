@@ -204,7 +204,6 @@ var rotate_piece = function() {
     break;
   }
 
-  //DOES NOT TEST FOR MOVE VALIDITY
   do_rotation(coor1_change, coor2_change, coor3_change, coor4_change);
 
   display_piece();
@@ -215,7 +214,7 @@ var rotate_piece = function() {
 // =============================== Board functions ===============================
 var pixel_is_filled = function(str) { //true if pixel is a block, false if otherwise
   if (str)
-    return (str.includes('FF')); //testing...
+    return (str.includes('background')); //testing...
   return false;
 };
 
@@ -234,11 +233,25 @@ var set_pixel = function(x, y, color) {
     return;
   var pixel = 'xy' + x + '-' + y;
   if (color != null)
-    document.getElementById(pixel).setAttribute('style', 'background: ' + color);
+    document.getElementById(pixel).setAttribute('style', 'background: ' + color +'; ');
   else
     document.getElementById(pixel).removeAttribute('style');
 };
 
+var outline_pixel = function(x, y) {
+  if (x >= 10 || y >= 20 || x < 0 || y < 0)
+    return;
+  var begin = document.getElementById('xy'+ x + '-' + y).getAttribute('style');
+  if (begin && begin.includes('border'))
+    return;
+  if (!begin)
+    begin = ''; //because js is a pain in the rear null -> 'null'
+  document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin + 'border-color: ' + curr_piece.color +';');
+};
+
+var outline_fall_area = function() { //in progress
+  // TODO
+};
 
 var check_row = function(y) { //returns true if row is full
   for (var x = 0; x < 10; x++ )
