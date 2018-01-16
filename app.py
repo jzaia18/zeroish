@@ -34,6 +34,33 @@ def login():
 def acc():
     return render_template("createacc.html")
 
+@app.route('/creator', methods = ["POST"])
+def creator():
+    if request.form['username'].strip() == "":
+        flash("No username - No Spaces Please")
+        return render_template('create.html')
+    elif user_exist(request.form["username"].strip()):
+        flash("username exist")
+        return render_template('create.html')
+    elif request.form['password'].strip() == "":
+        flash("No password - No Spaces Please")
+        return render_template('create.html')
+    elif request.form["npassword"].strip() == "":
+        flash("Re-type password - No Spaces Please")
+        return render_template('create.html')
+    elif request.form["password"].strip() != request.form["npassword"]:
+        flash("Password Don't Match, Try Again")
+        return render_template('create.html')
+    elif (request.form["password"] == request.form["npassword"]) and request.form["password"].strip() != "":
+        new_user = request.form["username"]
+        password = request.form["password"]
+        add_user(new_user, password)
+        db.commit() #save changes
+        return redirect(url_for ('root') )
+    else:
+        flash("Somthing Went Wrong, Try Again")
+        return render_template('create.html')
+
 @app.route("/profile")
 def profile():
     return render_template("profile.html")
@@ -41,6 +68,12 @@ def profile():
 @app.route("/highscores")
 def high():
     return render_template("highscores.html")
+
+@app.route('/logout')
+def logout():
+    if 'username' in session:
+        session.pop('username');
+    return redirect( url_for('root'))
 
 
 if __name__ == "__main__":
