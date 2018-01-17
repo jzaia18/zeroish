@@ -238,7 +238,7 @@ var set_pixel = function(x, y, color) {
     document.getElementById(pixel).removeAttribute('style');
 };
 
-var outline_pixel = function(x, y) {
+var outline_pixel = function(x, y, color) {
   if (x >= 10 || y >= 20 || x < 0 || y < 0)
     return;
   var begin = document.getElementById('xy'+ x + '-' + y).getAttribute('style');
@@ -246,11 +246,31 @@ var outline_pixel = function(x, y) {
     return;
   if (!begin)
     begin = ''; //because js is a pain in the rear null -> 'null'
-  document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin + 'border-color: ' + curr_piece.color +';');
+  if (color)
+    document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin + 'border-color: ' + color +';');
+  //else //TODO: FIX!
+    //document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin.substring(0, begin.indexOf('border'))); //untested
 };
 
 var outline_fall_area = function() { //in progress
-  // TODO
+  // c is going to walk down until it hits the bottom
+  var c = { x1:curr_piece.x1, y1:curr_piece.y1, x2:curr_piece.x2, y2:curr_piece.y2, x3:curr_piece.x3, y3:curr_piece.y3, x4:curr_piece.x4, y4:curr_piece.y4 };
+  while (! (get_pixel(c.x1, c.y1) || get_pixel(c.x2, c.y2) || get_pixel(c.x3, c.y3) || get_pixel(c.x4, c.y4))) {
+    c.y1--; c.y2--; c.y3--; c.y4--; }
+  outline_pixel(c.x1, c.y1, curr_piece.color);
+  outline_pixel(c.x2, c.y2, curr_piece.color);
+  outline_pixel(c.x3, c.y3, curr_piece.color);
+  outline_pixel(c.x4, c.y4, curr_piece.color);
+};
+
+var unoutline_fall_area = function() {
+  var c = { x1:curr_piece.x1, y1:curr_piece.y1, x2:curr_piece.x2, y2:curr_piece.y2, x3:curr_piece.x3, y3:curr_piece.y3, x4:curr_piece.x4, y4:curr_piece.y4 };
+  while (! (get_pixel(c.x1, c.y1) || get_pixel(c.x2, c.y2) || get_pixel(c.x3, c.y3) || get_pixel(c.x4, c.y4))) {
+    c.y1--; c.y2--; c.y3--; c.y4--; }
+  outline_pixel(c.x1, c.y1, null);
+  outline_pixel(c.x2, c.y2, null);
+  outline_pixel(c.x3, c.y3, null);
+  outline_pixel(c.x4, c.y4, null);
 };
 
 var check_row = function(y) { //returns true if row is full
@@ -266,7 +286,6 @@ var clear_rows = function(rows) {
     if (check_row(y))
       move_down(y, rows);
 };
-
 
 var move_down = function(start, rows) { //moves all blocks downa after row clear
   score += 100;
@@ -296,6 +315,7 @@ var clear_piece = function() {
   set_pixel(curr_piece.x2, curr_piece.y2, null);
   set_pixel(curr_piece.x3, curr_piece.y3, null);
   set_pixel(curr_piece.x4, curr_piece.y4, null);
+  //unoutline_fall_area();
 };
 
 var display_piece = function() {
@@ -303,6 +323,7 @@ var display_piece = function() {
   set_pixel(curr_piece.x2, curr_piece.y2, curr_piece.color);
   set_pixel(curr_piece.x3, curr_piece.y3, curr_piece.color);
   set_pixel(curr_piece.x4, curr_piece.y4, curr_piece.color);
+  //outline_fall_area();
 };
 
 var gravity = function() { //handles actual falling
