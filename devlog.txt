@@ -16,3 +16,21 @@ added ability to move pieces side to side
 jakeZ -- 2018-01-07 22:50:56
 added piling mechanic
 
+jakeZ -- 2018-01-10 22:50:56
+added basic tetromino rotation
+
+ishM -- 2018-01-11 02:49:45
+started work on homepage, login, and register
+
+jakeZ -- 2018-01-12 12:43:51
+fixed illegal tetromino rotation
+
+jakeZ -- 2018-01-13 15:55:29
+added faster gravity feature and instant placement feature
+
+jakeZ -- 2018-01-17 14:48:05
+added utility functions for placement overlay
+
+adeeburR -- 2018-01-17 21:50:06
+updated README
+
