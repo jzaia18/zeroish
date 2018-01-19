@@ -249,7 +249,7 @@ var outline_pixel = function(x, y, color) {
   if (color)
     document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin + 'border-color: ' + color +';');
   //else //TODO: FIX!
-    //document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin.substring(0, begin.indexOf('border'))); //untested
+  //document.getElementById('xy'+ x + '-' + y).setAttribute('style', begin.substring(0, begin.indexOf('border'))); //untested
 };
 
 var outline_fall_area = function() { //in progress
@@ -276,7 +276,7 @@ var unoutline_fall_area = function() {
 var check_row = function(y) { //returns true if row is full
   for (var x = 0; x < 10; x++ )
     if (! get_pixel(x, y))
-        return false;
+      return false;
   return true;
 };
 
@@ -297,7 +297,7 @@ var move_down = function(start, rows) { //moves all blocks downa after row clear
   }
 
   for (x = 0; x < 10; x++) //clear top row (to prevent copying)
-     set_pixel(x, 0, null);
+    set_pixel(x, 0, null);
 };
 
 var clear_board = function() {
@@ -376,11 +376,13 @@ var lateral_move = function(dir) {
 
 var start_game = function() {
   game_started = true;
-  score = 0;
   document.getElementsByClassName('game_start')[0].innerHTML = 'Good luck! Press Escape to quit.';
   clear_board();
   curr_piece = create_tetromino();
   display_piece();
+  time_game_started = Date.now();
+  level = 0;
+  score = 0;
   play_game();
 };
 
@@ -395,11 +397,14 @@ var get_fall_time = function() {
   if (debug_falling)
     return 100;
   else
-    return 350; //TODO: implement diff speeds based on level
+    return 500-50*level; //TODO: implement diff speeds based on level
 };
 
 var play_game = function() {
   if (game_started) {
+    level = Math.floor((Date.now() - time_game_started) / 30000); //TESTING
+    if (is_paused)
+      return; //waits for unpause
     if (curr_piece == null)
       curr_piece = create_tetromino();
     display_piece();
@@ -413,13 +418,22 @@ var button_press = function(e) {
     console.log('button push: ' + e.code);
     console.log(curr_piece); }
 
-    if (!game_started) {
+  if (!game_started) {
     if (e.code == 'Space') {
       start_game();
       return;
     }
     else
       return;
+  }
+
+  if (is_paused) {
+    if (debugging) console.log('unpause!');
+    if (e.code == 'KeyP') {
+      is_paused = false;
+      play_game();
+    }
+    return;
   }
 
   if (Date.now() - time_piece_created > 500) //half sec grace period
@@ -444,6 +458,8 @@ var button_press = function(e) {
     case 'Space':
       gravity_until_floor();
       break;
+    case 'KeyP':
+      is_paused = true;
     }
 };
 
@@ -455,9 +471,12 @@ var debug_falling = false; // forces pieces to move faster
 
 var level = 1;
 var score = 0;
+var time_game_started;
 
 var gravity_timer;
 var game_started = false;
+var is_paused = false;
+
 var curr_piece = null;
 var time_piece_created = 0;
 
