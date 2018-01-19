@@ -3,7 +3,7 @@ import os, sqlite3, random
 import utils.data as users
 
 app = Flask(__name__)
-
+app.secret_key = os.urandom(16)
 @app.route("/")
 def root():
     if 'username' in session:
@@ -39,9 +39,9 @@ def creator():
     if request.form['username'].strip() == "":
         flash("No username - No Spaces Please")
         return render_template('create.html')
-    elif user_exist(request.form["username"].strip()):
+    elif users.exists(request.form["username"].strip()):
         flash("username exist")
-        return render_template('create.html')
+        return render_template('login.html')
     elif request.form['password'].strip() == "":
         flash("No password - No Spaces Please")
         return render_template('create.html')
@@ -54,12 +54,11 @@ def creator():
     elif (request.form["password"] == request.form["npassword"]) and request.form["password"].strip() != "":
         new_user = request.form["username"]
         password = request.form["password"]
-        add_user(new_user, password)
-        db.commit() #save changes
+        users.addUser(new_user, password)
         return redirect(url_for ('root') )
     else:
         flash("Somthing Went Wrong, Try Again")
-        return render_template('create.html')
+        return render_template('createacc.html')
 
 @app.route("/profile")
 def profile():
