@@ -77,3 +77,10 @@ html {
   padding-left: 25px;
   padding-bottom: 170px
 }
+
+.tetris{
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
+  background-color: #325568;
+}

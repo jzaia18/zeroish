@@ -34,6 +34,34 @@ var temp_dir = dir;
 var score = 0;
 var level = 1;
 
+// Different "constructors" for each shape
+var create_tetromino_I = function() { return {x1:3, y1:0, x2:4, y2:0, x3:5, y3:0, x4:6, y4:0, color:'#00FFFF', shape:'I', orientation:0}; };
+var create_tetromino_O = function() { return {x1:4, y1:0, x2:4, y2:1, x3:5, y3:0, x4:5, y4:1, color:'#FFFF00', shape:'O', orientation:0}; };
+var create_tetromino_T = function() { return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1, x4:4, y4:0, color:'#FF00FF', shape:'T', orientation:0}; };
+var create_tetromino_S = function() { return {x1:3, y1:1, x2:4, y2:1, x3:4, y3:0, x4:5, y4:0, color:'#00FF00', shape:'S', orientation:0}; };
+var create_tetromino_Z = function() { return {x1:3, y1:0, x2:4, y2:0, x3:4, y3:1, x4:5, y4:1, color:'#FF0000', shape:'Z', orientation:0}; };
+var create_tetromino_J = function() { return {x1:3, y1:0, x2:3, y2:1, x3:4, y3:1, x4:5, y4:1, color:'#0000FF', shape:'J', orientation:0}; };
+var create_tetromino_L = function() { return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1, x4:5, y4:0, color:'#FF9900', shape:'L', orientation:0}; };
+
+// Creation wrapper function
+var create_tetromino = function() {
+  var t;
+  switch (Math.floor(Math.random() * 7)) {
+  case 0: t = create_tetromino_I(); break;
+  case 1: t = create_tetromino_O(); break;
+  case 2: t = create_tetromino_T(); break;
+  case 3: t = create_tetromino_S(); break;
+  case 4: t = create_tetromino_Z(); break;
+  case 5: t = create_tetromino_J(); break;
+  case 6: t = create_tetromino_L(); break;
+  }
+  return t;
+};
+
+
+
+
+
 //main function that runs
 var main = function(){
   //preliminary setup fxn
@@ -45,7 +73,6 @@ var main = function(){
 var reset = function(){
   location.reload();
 };
-
 
 var get_id = function(x,y){
   return document.getElementById(x+"-"+y);
@@ -80,9 +107,33 @@ var update_game_status = function(playing,game_over) {
 
 var setup = function(){
   //make_map();
+  poof_tetris();
+  poof_tetris();
+  poof_tetris();
   draw_snek();
-  draw_fruit();
-//  poof_tetris();//implement later
+  draw_fruit(); //implement later
+};
+
+var poof_tetris = function(){
+  var x = random(-2,12);
+  var y = random(2,18);
+  var t = create_tetromino();
+  t.x1 += x;
+  t.x2 += x;
+  t.x3 += x;
+  t.x4 += x;
+  t.y1 += y;
+  t.y2 += y;
+  t.y3 += y;
+  t.y4 += y;
+  display_piece(t);
+}
+
+var display_piece = function(t) {
+  set_class(t.x1, t.y1, "tetris");
+  set_class(t.x2, t.y2, "tetris");
+  set_class(t.x3, t.y3, "tetris");
+  set_class(t.x4, t.y4, "tetris");
 };
 
 var lvl = function(){
@@ -207,7 +258,7 @@ var update = function(){
           }
       }
       //snek collsion is being checked via borders
-      if(get_class(snek_posx, snek_posy) == "border"){
+      if((get_class(snek_posx, snek_posy) == "border") || (get_class(snek_posx, snek_posy) == "tetris")){
           set_class(snek_posx,snek_posy,"border")
           game_over = true;
           update_game_status(playing,game_over);
