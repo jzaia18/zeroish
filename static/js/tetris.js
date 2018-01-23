@@ -457,7 +457,7 @@ var alert_gameover = function() {
 // Updates database
 var send_score = function(e) {
   $.ajax({
-    url: '/update',
+    url: '/tetris/update',
     type: 'POST',
     data: {'score' : score },
     success: function(d) {
