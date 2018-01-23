@@ -45,19 +45,19 @@ def logout():
     return redirect( url_for('root'))
 
 #temp for testing
-@app.route("/playgame")
+@app.route("/tetris")
 def tetris():
     if 'username' in session:
-        return render_template("playgame.html", logged=True)
+        return render_template("tetris.html", logged=True)
     else:
-        return render_template("playgame.html")
+        return render_template("tetris.html")
 
-@app.route("/playgame2")
+@app.route("/snake")
 def snek():
     if 'username' in session:
-        return render_template("playgame2.html", logged=True)
+        return render_template("snake.html", logged=True)
     else:
-        return render_template("playgame2.html")
+        return render_template("snake.html")
 
 
 @app.route("/profile")
