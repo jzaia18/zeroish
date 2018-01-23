@@ -73,10 +73,14 @@ def profile():
         current_user = True
     else:
         return redirect(url_for ('login') )
-    return render_template("profile.html", user=username, image=user.get_avatar(username),
-                           latest=score.get_scores(username), highscore=score.get_highscore(username),
-                           average=score.get_average(username), numplayed=score.get_numplayed(username),
-                           logged=True, current_user=current_user)
+    if not auth.user_exists(username):
+        flash("User does not exist")
+        return redirect( url_for('root'))
+    else:
+        return render_template("profile.html", user=username, image=user.get_avatar(username),
+                    latest=score.get_scores(username), highscore=score.get_highscore(username),
+                    average=score.get_average(username), numplayed=score.get_numplayed(username),
+                    logged=True, current_user=current_user)
 
 @app.route("/leaderboard")
 def leaderboard():
@@ -103,7 +107,7 @@ def avatar():
         if 'image' in request.files:
             image = request.files['image']
             if image.content_type[:image.content_type.find('/')] == "image":
-                user.set_avatar('username', request.files['image'].stream.read().encode('base64').replace('\n',''))
+                user.set_avatar(session['username'], image.stream.read().encode('base64').replace('\n',''))
                 flash("Avatar Sucessfully updated")
             else:
                 flash("Upload Failed, provide an image file")
