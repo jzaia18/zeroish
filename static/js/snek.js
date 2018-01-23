@@ -33,6 +33,7 @@ var temp_dir = dir;
 //keeps track of user score
 var score = 0;
 var level = 1;
+game_mode = 0;
 
 // Different "constructors" for each shape
 var create_tetromino_I = function() { return {x1:3, y1:0, x2:4, y2:0, x3:5, y3:0, x4:6, y4:0, color:'#00FFFF', shape:'I', orientation:0}; };
@@ -107,6 +108,7 @@ var update_game_status = function(playing,game_over) {
 
 var setup = function(){
   //make_map();
+  poof_tetris();
   poof_tetris();
   poof_tetris();
   poof_tetris();
