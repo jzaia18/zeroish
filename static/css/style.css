@@ -38,13 +38,9 @@ body {
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #7aa2b3;
+    background-color: #325568;
     color: white;
     text-align: center;
-}
-
-h1{
-    color: #FF545C;
 }
 
 .navbar-center {
@@ -53,8 +49,8 @@ h1{
     transform: translatex(-50%);
 }
 
-a{
-    color: #FF545C;
+a, a:hover{
+    color: #325568;
 }
 
 ul{

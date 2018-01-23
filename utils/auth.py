@@ -47,9 +47,6 @@ if __name__ == '__main__':
     c.execute("CREATE TABLE IF NOT EXISTS snek (username TEXT PRIMARY KEY, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC);")
     db.commit()
     db.close()
-    print 'Attempting to create account user, password:', register('user', 'user')
-    print 'Attempting to create account user, password:', register('user', 'user')
-    print 'Attempting to login with user, invalid:', authenticate('user', 'invalid')
-    print 'Attempting to login with user, password:', authenticate('user', 'user')
-    print 'Attempting to create account user, password:', register('test', 'test')
-    print 'Attempting to create account user, password:', register('dummy', 'dummy')
+    users = ["Bob", "Adeeb", "Jake", "Cynthia", "Ish", "Gerald", "Mark", "Karina","Dasha", "Brandon","Farah", "Kristina", "Hannah", "Inbar", "Rashawn", "Marcus", "Stanley","Jerry", "Bobby", "George", "David", "Stefan", "Tomas", "Giorgio", "Alex"]
+    for user in users:
+      print 'Attempting to create account "%s":' % (user), register(user, user)

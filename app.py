@@ -90,7 +90,7 @@ def tetris_leaderboard():
         logged = True
     else:
         logged = False
-    return render_template("leaderboard.html", logged=logged,
+    return render_template("leaderboard.html", logged=logged, game="Tetris",
                            highscores = tetris.get_highscores(),
                            averages = tetris.get_averages())
 
@@ -100,7 +100,7 @@ def snake_leaderboard():
         logged = True
     else:
         logged = False
-    return render_template("leaderboard.html", logged=logged,
+    return render_template("leaderboard.html", logged=logged, game="Snek",
                            highscores = snek.get_highscores(),
                            averages = snek.get_averages())
 

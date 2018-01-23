@@ -67,7 +67,7 @@ def get_highscores():
     scores = []
     for line in sorted(dic.items(), key=lambda dic: dic[1], reverse=True):
         scores.append( [line[0], line[1]] )
-    return scores
+    return scores[:10]
 
 def get_averages():
     db = sqlite3.connect(f)
@@ -78,7 +78,7 @@ def get_averages():
     scores = []
     for line in sorted(dic.items(), key=lambda dic: dic[1], reverse=True):
         scores.append( [line[0], line[1]] )
-    return scores
+    return scores[:10]
 
 if __name__ == '__main__':
     f = '../data/database.db'
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     c.execute("CREATE TABLE IF NOT EXISTS snek (username TEXT PRIMARY KEY, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC);")
     db.commit()
     db.close()
-    users = ['user', 'test', 'dummy']
+    users = ["Bob", "Adeeb", "Jake", "Cynthia", "Ish", "Gerald", "Mark", "Karina","Dasha", "Brandon","Farah", "Kristina", "Hannah", "Inbar", "Rashawn", "Marcus", "Stanley","Jerry", "Bobby", "George", "David", "Stefan", "Tomas", "Giorgio", "Alex"]
     for user in users:
         print get_scores(user)
         print get_highscore(user)
@@ -98,7 +98,7 @@ if __name__ == '__main__':
         testing = True
         if testing:
             for i in range(3):
-                add_score(user, int(random.random() * 50) * 100)
+                add_score(user, int(random.random() * 30) * 50)
                 print get_scores(user)
                 print get_highscore(user)
                 print get_average(user)
