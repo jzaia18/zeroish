@@ -52,6 +52,14 @@ def tetris():
     else:
         return render_template("playgame.html")
 
+@app.route("/playgame2")
+def snek():
+    if 'username' in session:
+        return render_template("playgame2.html", logged=True)
+    else:
+        return render_template("playgame2.html")
+
+
 @app.route("/profile")
 def profile():
     if 'username' in session:

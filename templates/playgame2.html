@@ -1,0 +1,9 @@
+{% extends "template.html" %}
+{% block title %}Danger Noodle{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/snek.css') }}">
+{% endblock %}
+{% block content %}
+
+<script src="{{ url_for('static',filename='js/snek.js') }}"></script>
+{% endblock %}
