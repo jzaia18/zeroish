@@ -6,12 +6,12 @@ var height = 20;
 var length = 20;
 //time interval
 var time = 100;
-//how much snek grows by eating fruit
+//how much snek grows by eating apple
 var snek_grow = 1;
 //position of snek body
 var tail_posx = [snek_posx];
 var tail_posy = [snek_posy];
-//position of fruit
+//position of apple
 //randomness needed for apples
 var random = function(min,max){
   return Math.floor(Math.random()*(max-min) + min);
@@ -113,13 +113,17 @@ var setup = function(){
   poof_tetris();
   poof_tetris();
   draw_snek();
-  draw_fruit(); //implement later
+  draw_apple(); //implement later
 };
 
 var poof_tetris = function(){
   var x = random(-2,12);
   var y = random(2,18);
   var t = create_tetromino();
+  var z = random(0,3);
+  while(z-- > 0){
+    rotate_piece(t);
+  }
   t.x1 += x;
   t.x2 += x;
   t.x3 += x;
@@ -138,6 +142,160 @@ var display_piece = function(t) {
   set_class(t.x4, t.y4, "tetris");
 };
 
+// Does rotation of a piece (as a matrix operation)
+var do_rotation = function(t,coor1, coor2, coor3, coor4) {
+  // Do actual rotation
+  t.x1 += coor1[0]; t.y1 += coor1[1];
+  t.x2 += coor2[0]; t.y2 += coor2[1];
+  t.x3 += coor3[0]; t.y3 += coor3[1];
+  t.x4 += coor4[0]; t.y4 += coor4[1];
+  t.orientation = (t.orientation + 1) %4;
+};
+
+// Wrapper function for piece rotation
+var rotate_piece = function(t) {
+  // These numbers will be added to the coords [x,y]
+  var coor1_change = [0,0];
+  var coor2_change = [0,0];
+  var coor3_change = [0,0];
+  var coor4_change = [0,0];
+  var s = t.orientation; //to save space
+
+  switch(t.shape) {
+  case 'O':
+    break;
+  case 'I':
+    if (s %2 == 0) {
+      coor1_change = [1, -3];
+      coor2_change = [0, -2];
+      coor3_change = [-1, -1];
+      coor4_change = [-2, 0];
+    } else {
+      coor1_change = [-1, 3];
+      coor2_change = [0, 2];
+      coor3_change = [1, 1];
+      coor4_change = [2, 0];
+    }
+    break;
+  case 'L':
+    if (s==0) {
+      coor1_change = [1, -2];
+      coor2_change = [0, -1];
+      coor3_change = [-1, 0];
+      coor4_change = [0, 1];
+    } else if (s==1) {
+      coor1_change = [1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [-1, -1];
+      coor4_change = [-2, 0];
+    } else if (s==2) {
+      coor1_change = [-1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [1, -1];
+      coor4_change = [0, -2];
+    } else if (s==3){
+      coor1_change = [-1, 0];
+      coor2_change = [0, 1];
+      coor3_change = [1, 2];
+      coor4_change = [2, 1];
+    }
+    break;
+  case 'J':
+    if (s==0) {
+      coor1_change = [2, -1];
+      coor2_change = [1, -2];
+      coor3_change = [0, -1];
+      coor4_change = [-1, 0];
+    } else if (s==1) {
+      coor1_change = [0, 2];
+      coor2_change = [1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [-1, -1];
+    } else if (s==2) {
+      coor1_change = [-2, 0];
+      coor2_change = [-1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [1, -1];
+    } else if (s==3) {
+      coor1_change = [0, -1];
+      coor2_change = [-1, 0];
+      coor3_change = [0, 1];
+      coor4_change = [1, 2];
+    }
+    break;
+  case 'S':
+    if (s %2 == 0) {
+      coor1_change = [0, -2];
+      coor2_change = [-1, -1];
+      coor3_change = [0, 0];
+      coor4_change = [-1, 1];
+    } else {
+      coor1_change = [0, 2];
+      coor2_change = [1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [1, -1];
+    }
+    break;
+  case 'Z':
+    if (s %2 == 0) {
+      coor1_change = [2, -1];
+      coor2_change = [1, 0];
+      coor3_change = [0, -1];
+      coor4_change = [-1, 0];
+    } else {
+      coor1_change = [-2, 1];
+      coor2_change = [-1, 0];
+      coor3_change = [0, 1];
+      coor4_change = [1, 0];
+    }
+    break;
+  case 'T':
+    if (s==0) {
+      coor1_change = [1, -2];
+      coor2_change = [0, -1];
+      coor3_change = [-1, 0];
+      coor4_change = [1, 0];
+    } else if (s==1) {
+      coor1_change = [1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [-1, -1];
+      coor4_change = [-1, 1];
+    } else if (s==2) {
+      coor1_change = [-1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [1, -1];
+      coor4_change = [-1, -1];
+    } else if (s==3) {
+      coor1_change = [-1, 0];
+      coor2_change = [0, 1];
+      coor3_change = [1, 2];
+      coor4_change = [1, 0];
+    }
+    break;
+  }
+  //does actual rotation
+  do_rotation(t,coor1_change, coor2_change, coor3_change, coor4_change);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var lvl = function(){
   if ((score > level*200) && (level < 10)){
     level += 1;
@@ -146,7 +304,6 @@ var lvl = function(){
     inital = setInterval(loop, time);
     }
   };
-
 
 var loop = function(){
     if(playing && !game_over){
@@ -166,7 +323,7 @@ var draw = function(x,y,type){
   return store.setAttribute("class",type);
 };
 
-var draw_fruit = function(){
+var draw_apple = function(){
       //check if the apple exist first
       var no_exist = true;
       //find a radom non-occupied location for apple
@@ -274,7 +431,7 @@ var update = function(){
       //if the snek eats apple, grow it and respawn apple
       if(snek_posx == apple_posx && snek_posy == apple_posy){
           score += 50;
-          draw_fruit();
+          draw_apple();
           len += snek_grow;
       }
       update_game_status(playing,game_over);

@@ -135,3 +135,6 @@ Added tetris piece obstacles to snek
 
 jakeZ -- 2018-01-23 15:23:06
 Pushed updated design doc
+
+ishtiaqueM -- 2018-01-23 15:39:30
+Added rotation to tetris shaped snek obstacles
