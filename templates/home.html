@@ -1,8 +1,16 @@
 {% extends "template.html" %}
 {% block title %}Zeroish Homepage{% endblock %}
 {% block content %}
-<p style= "font-size: 30px">
-  Hi! This is Zero-ish. Team Zero (Jake, Adeeb, Cynthia) from project 0 and Ish :). We have created the Ultimate Tetris and Supreme Snek -- where you can play against the site’s highest scores and become the best gamer. Start by creating an account or logging in then play the action-packed games. If you'd like, you can log into your Facebook account and automatically create a profile. Viewing your profile, you can access your latest scores, average score and number of times played. If you're feeling competitive view the site’s highest scores. If you’re good enough maybe you’ll make the leaderboards.
-</p>
-<img src={{url_for('static', filename = 'img/groupPic.JPG')}} style="width = 80vw; height = auto">
+<table>
+  <tr class="homepage_info">
+    <td class="homepage_info">
+      <img src={{url_for('static', filename = 'img/groupPic.JPG')}} alt="Group dev pic <3" class="group_pic">
+    </td>
+    <td class="homepage_info">
+      <p style= "font-size: 1.7vw; vertical-align: middle">
+        Hi! This is Zero-ish. Team Zero (Jake, Adeeb, Cynthia) from project 0 and Ish :). We have created the Ultimate Tetris and Supreme Snek -- where you can play against the site’s highest scores and become the best gamer. Start by creating an account or logging in then play the action-packed games. If you'd like, you can log into your Facebook account and automatically create a profile. Viewing your profile, you can access your latest scores, average score and number of times played. If you're feeling competitive view the site’s highest scores. If you’re good enough maybe you’ll make the leaderboards.
+      </p>
+    </td>
+  </tr>
+</table>
 {% endblock %}
