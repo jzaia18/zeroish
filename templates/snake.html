@@ -5,5 +5,18 @@
 {% endblock %}
 {% block content %}
 
+<center><table>
+{% for i in range(20)  %} <tr>
+{% for j in range(20) %}
+{% if (j == 0 or i == 0 or j == 20 - 1 or i == 20 - 1) %}
+     <td class="border" id="{{j}}-{{i}}"></td>
+{% else %}
+     <td class="back" id="{{j}}-{{i}}"></td>
+{% endif %}     
+{% endfor %}
+{% endfor %}
+</table></center>
+
+
 <script src="{{ url_for('static',filename='js/snek.js') }}"></script>
 {% endblock %}

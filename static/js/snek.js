@@ -19,7 +19,7 @@ var playing = false;
 var game_over = false;
 //arrow key values used to determine snek direction
 // 1 = up, 2 = right, down = 3, left = 4
-var dir = 3;
+var dir = 0;
 //will be used to store function later for timer
 var inital;
 //necessary for length of snake
@@ -41,7 +41,6 @@ var reset = function(){
   location.reload();
 }
 
-
 //randomness needed for apples
 function random(min,max){
   return Math.floor(Math.random()*(max-min) +min);
@@ -62,7 +61,7 @@ function set_class(x,y,claz){
 }
 
 function setup(){
-  make_map();
+  //make_map();
   draw_snek();
   draw_fruit();
 //  poof_tetris();//implement later
@@ -78,25 +77,9 @@ function loop(){
 }
 
 //sets up main part of map
-function make_map(){
-  //this table being made is the grid for the snake game
-  document.write("<center><table>");
-  //rows
-  for (var y = 0; y < height; y ++){
-    document.write("<tr>");
-    //columns, at this point these are individual cells
-    for (var x = 0; x < length; x ++){
-      if (x == 0 || y == 0 || x == length - 1 || y == height - 1){
-        document.write("<td class='border' id='" + x + "-" + y + "'></td>");
-      }
-      else{
-        document.write("<td class='back' id='" + x + "-" + y + "'></td>");
-      }
-    }
-    document.write("</tr>")
-  }
-  document.write("</tables></center>")
-}
+
+
+
 
 function draw_snek() {
   draw(snek_posx,snek_posy,"snek")
@@ -122,6 +105,16 @@ function draw_fruit(){
       set_class(temp_apple_posx, temp_apple_posy, "apple");
       apple_posx = temp_apple_posx;
       apple_posy = temp_apple_posy;
+  }
+
+  //updates tail position based on array position
+  function tail(){
+      for(var i = len; i > 0; i--){
+          tail_posx[i] = tail_posx[i-1];
+          tail_posy[i] = tail_posy[i-1];
+      }
+      tail_posx[0] = snek_posx;
+      tail_posy[0] = snek_posy;
   }
 
 
@@ -156,7 +149,7 @@ function draw_fruit(){
       //makes non snake cells back to background cells
       set_class(tail_posx[len], tail_posy[len], "back");
       //updates tail position
-      Tail();
+      tail();
       //shifts head and body based on dir
       if(dir == 1)//up
           snek_posy--;
@@ -186,14 +179,6 @@ function draw_fruit(){
           len += snek_grow;
       }
   }
-  //updates tail position based on array position
-  function Tail(){
-      for(var i = len; i > 0; i--){
-          tail_posx[i] = tail_posx[i-1];
-          tail_posy[i] = tail_posy[i-1];
-      }
-      tail_posx[0] = snek_posx;
-      tail_posy[0] = snek_posy;
-  }
+
 
 main()
