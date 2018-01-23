@@ -381,8 +381,8 @@ var do_gravity = function() { //also is a callback for play_game
 
 // Forces a piece to the floor (wrapper)
 var gravity_until_floor = function() {
-  score += level*20;
-  while (gravity());
+  while (gravity())
+    score += level*10;
 };
 
 // Moves a piece left or right (uses user input)
