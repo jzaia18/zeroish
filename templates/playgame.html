@@ -4,16 +4,42 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/tetris.css') }}">
 {% endblock %}
 {% block content %}
-<center>
-  <div class="game">
-    <div class="board">
-      {% for i in range(20) %} <div class="row">
-      {% for j in range(10) %} <div class="pixel" id="xy{{j}}-{{i}}"> </div>
-      {% endfor %} </div>
-      {% endfor %}
-    </div>
-    <div class="game_start"> Press Space to start</div>
-  </div>
-</center>
+<div class="game">
+  <table class ="inner">
+    <tr>
+      <td class="board_container">
+
+        <div class="board">
+          {% for i in range(20) %} <div class="row">
+          {% for j in range(10) %} <div class="pixel" id="xy{{j}}-{{i}}"> </div>
+          {% endfor %} </div>
+          {% endfor %}
+        </div>
+        <div class="game_start"> Press Space to start</div>
+
+      </td>
+      <td class="side_info">
+
+        <div class="next_piece">
+          <div class="miniboard">
+            {% for i in range(2) %} <div class="row">
+            {% for j in range(4) %} <div class="pixel" id="xynext{{j}}-{{i}}"> </div>
+            {% endfor %} </div>
+            {% endfor %}
+          </div>
+          Next Piece
+        </div>
+        <div class="game_info">
+          <p> <b><u>Game info:</u></b> </p>
+          <p id="gi-level">Level: 0</p>
+          <p id="gi-score">Score: 0</p>
+          <p id="gi-status">Game not started</p>
+        </div>
+
+      </td>
+    </tr>
+  </table>
+</div>
+
 <script src="{{ url_for('static',filename='js/tetris.js') }}"></script>
 {% endblock %}

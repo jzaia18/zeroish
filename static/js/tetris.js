@@ -20,13 +20,13 @@ var create_tetromino_L = function() { return {x1:3, y1:1, x2:4, y2:1, x3:5, y3:1
 var create_tetromino = function() {
   var t;
   switch (Math.floor(Math.random() * 7)) {
-    case 0: t = create_tetromino_I(); break;
-    case 1: t = create_tetromino_O(); break;
-    case 2: t = create_tetromino_T(); break;
-    case 3: t = create_tetromino_S(); break;
-    case 4: t = create_tetromino_Z(); break;
-    case 5: t = create_tetromino_J(); break;
-    case 6: t = create_tetromino_L(); break;
+  case 0: t = create_tetromino_I(); break;
+  case 1: t = create_tetromino_O(); break;
+  case 2: t = create_tetromino_T(); break;
+  case 3: t = create_tetromino_S(); break;
+  case 4: t = create_tetromino_Z(); break;
+  case 5: t = create_tetromino_J(); break;
+  case 6: t = create_tetromino_L(); break;
   }
   time_piece_created = Date.now();
   num_pieces_placed++;
@@ -50,8 +50,10 @@ var do_rotation = function(coor1, coor2, coor3, coor4) {
   if (get_pixel(curr_piece.x1+coor1[0], curr_piece.y1+coor1[1]) ||
       get_pixel(curr_piece.x2+coor2[0], curr_piece.y2+coor2[1]) ||
       get_pixel(curr_piece.x3+coor3[0], curr_piece.y3+coor3[1]) ||
-      get_pixel(curr_piece.x4+coor4[0], curr_piece.y4+coor4[1]) )
+      get_pixel(curr_piece.x4+coor4[0], curr_piece.y4+coor4[1]) ) {
+    display_piece();
     return;
+  }
   // Do actual rotation
   curr_piece.x1 += coor1[0]; curr_piece.y1 += coor1[1];
   curr_piece.x2 += coor2[0]; curr_piece.y2 += coor2[1];
@@ -71,116 +73,116 @@ var rotate_piece = function() {
   var s = curr_piece.orientation; //to save space
 
   switch(curr_piece.shape) {
-    case 'O':
-      break;
-    case 'I':
-      if (s %2 == 0) {
-        coor1_change = [1, -3];
-        coor2_change = [0, -2];
-        coor3_change = [-1, -1];
-        coor4_change = [-2, 0];
-      } else {
-        coor1_change = [-1, 3];
-        coor2_change = [0, 2];
-        coor3_change = [1, 1];
-        coor4_change = [2, 0];
-      }
-      break;
-    case 'L':
-      if (s==0) {
-        coor1_change = [1, -2];
-        coor2_change = [0, -1];
-        coor3_change = [-1, 0];
-        coor4_change = [0, 1];
-      } else if (s==1) {
-        coor1_change = [1, 1];
-        coor2_change = [0, 0];
-        coor3_change = [-1, -1];
-        coor4_change = [-2, 0];
-      } else if (s==2) {
-        coor1_change = [-1, 1];
-        coor2_change = [0, 0];
-        coor3_change = [1, -1];
-        coor4_change = [0, -2];
-      } else if (s==3){
-        coor1_change = [-1, 0];
-        coor2_change = [0, 1];
-        coor3_change = [1, 2];
-        coor4_change = [2, 1];
-      }
-      break;
-    case 'J':
-      if (s==0) {
-        coor1_change = [2, -1];
-        coor2_change = [1, -2];
-        coor3_change = [0, -1];
-        coor4_change = [-1, 0];
-      } else if (s==1) {
-        coor1_change = [0, 2];
-        coor2_change = [1, 1];
-        coor3_change = [0, 0];
-        coor4_change = [-1, -1];
-      } else if (s==2) {
-        coor1_change = [-2, 0];
-        coor2_change = [-1, 1];
-        coor3_change = [0, 0];
-        coor4_change = [1, -1];
-      } else if (s==3) {
-        coor1_change = [0, -1];
-        coor2_change = [-1, 0];
-        coor3_change = [0, 1];
-        coor4_change = [1, 2];
-      }
-      break;
-    case 'S':
-      if (s %2 == 0) {
-        coor1_change = [0, -2];
-        coor2_change = [-1, -1];
-        coor3_change = [0, 0];
-        coor4_change = [-1, 1];
-      } else {
-        coor1_change = [0, 2];
-        coor2_change = [1, 1];
-        coor3_change = [0, 0];
-        coor4_change = [1, -1];
-      }
-      break;
-    case 'Z':
-      if (s %2 == 0) {
-        coor1_change = [2, -1];
-        coor2_change = [1, 0];
-        coor3_change = [0, -1];
-        coor4_change = [-1, 0];
-      } else {
-        coor1_change = [-2, 1];
-        coor2_change = [-1, 0];
-        coor3_change = [0, 1];
-        coor4_change = [1, 0];
-      }
-      break;
-    case 'T':
-      if (s==0) {
-        coor1_change = [1, -2];
-        coor2_change = [0, -1];
-        coor3_change = [-1, 0];
-        coor4_change = [1, 0];
-      } else if (s==1) {
-        coor1_change = [1, 1];
-        coor2_change = [0, 0];
-        coor3_change = [-1, -1];
-        coor4_change = [-1, 1];
-      } else if (s==2) {
-        coor1_change = [-1, 1];
-        coor2_change = [0, 0];
-        coor3_change = [1, -1];
-        coor4_change = [-1, -1];
-      } else if (s==3) {
-        coor1_change = [-1, 0];
-        coor2_change = [0, 1];
-        coor3_change = [1, 2];
-        coor4_change = [1, 0];
-      }
-      break;
+  case 'O':
+    break;
+  case 'I':
+    if (s %2 == 0) {
+      coor1_change = [1, -3];
+      coor2_change = [0, -2];
+      coor3_change = [-1, -1];
+      coor4_change = [-2, 0];
+    } else {
+      coor1_change = [-1, 3];
+      coor2_change = [0, 2];
+      coor3_change = [1, 1];
+      coor4_change = [2, 0];
+    }
+    break;
+  case 'L':
+    if (s==0) {
+      coor1_change = [1, -2];
+      coor2_change = [0, -1];
+      coor3_change = [-1, 0];
+      coor4_change = [0, 1];
+    } else if (s==1) {
+      coor1_change = [1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [-1, -1];
+      coor4_change = [-2, 0];
+    } else if (s==2) {
+      coor1_change = [-1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [1, -1];
+      coor4_change = [0, -2];
+    } else if (s==3){
+      coor1_change = [-1, 0];
+      coor2_change = [0, 1];
+      coor3_change = [1, 2];
+      coor4_change = [2, 1];
+    }
+    break;
+  case 'J':
+    if (s==0) {
+      coor1_change = [2, -1];
+      coor2_change = [1, -2];
+      coor3_change = [0, -1];
+      coor4_change = [-1, 0];
+    } else if (s==1) {
+      coor1_change = [0, 2];
+      coor2_change = [1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [-1, -1];
+    } else if (s==2) {
+      coor1_change = [-2, 0];
+      coor2_change = [-1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [1, -1];
+    } else if (s==3) {
+      coor1_change = [0, -1];
+      coor2_change = [-1, 0];
+      coor3_change = [0, 1];
+      coor4_change = [1, 2];
+    }
+    break;
+  case 'S':
+    if (s %2 == 0) {
+      coor1_change = [0, -2];
+      coor2_change = [-1, -1];
+      coor3_change = [0, 0];
+      coor4_change = [-1, 1];
+    } else {
+      coor1_change = [0, 2];
+      coor2_change = [1, 1];
+      coor3_change = [0, 0];
+      coor4_change = [1, -1];
+    }
+    break;
+  case 'Z':
+    if (s %2 == 0) {
+      coor1_change = [2, -1];
+      coor2_change = [1, 0];
+      coor3_change = [0, -1];
+      coor4_change = [-1, 0];
+    } else {
+      coor1_change = [-2, 1];
+      coor2_change = [-1, 0];
+      coor3_change = [0, 1];
+      coor4_change = [1, 0];
+    }
+    break;
+  case 'T':
+    if (s==0) {
+      coor1_change = [1, -2];
+      coor2_change = [0, -1];
+      coor3_change = [-1, 0];
+      coor4_change = [1, 0];
+    } else if (s==1) {
+      coor1_change = [1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [-1, -1];
+      coor4_change = [-1, 1];
+    } else if (s==2) {
+      coor1_change = [-1, 1];
+      coor2_change = [0, 0];
+      coor3_change = [1, -1];
+      coor4_change = [-1, -1];
+    } else if (s==3) {
+      coor1_change = [-1, 0];
+      coor2_change = [0, 1];
+      coor3_change = [1, 2];
+      coor4_change = [1, 0];
+    }
+    break;
   }
   //does actual rotation
   do_rotation(coor1_change, coor2_change, coor3_change, coor4_change);
@@ -219,6 +221,18 @@ var set_pixel = function(x, y, color) {
     document.getElementById(pixel).removeAttribute('style');
 };
 
+// Set pixel color in box containing next piece
+var set_nextbox_pixel = function(x, y, color){
+  x-=3;
+  if (x >= 4 || y >= 2 || x < 0 || y < 0)
+    return;
+  var pixel = 'xynext' + x + '-' + y;
+  if (color != null)
+    document.getElementById(pixel).setAttribute('style', 'background: ' + color +'; ');
+  else
+    document.getElementById(pixel).removeAttribute('style');
+};
+
 // Checks if a row of pixels is full
 var check_row = function(y) {
   for (var x = 0; x < 10; x++ )
@@ -251,9 +265,15 @@ var move_down = function(start) {
 
 // Completely resets the board
 var clear_board = function() {
-  for (var i = 0; i < 20; i++)
-    for (var j = 0; j < 10; j++)
-      set_pixel(j, i, null);
+  for (var y = 0; y < 20; y++)
+    for (var x = 0; x < 10; x++)
+      set_pixel(x, y, null);
+};
+
+var clear_nextbox = function() {
+  for (var x = 3; x < 7; x++)
+    for (var y = 0; y < 2; y++)
+      set_nextbox_pixel(x, y, null);
 };
 
 // =============================== UNUSED (needs further development) ===============================
@@ -311,6 +331,12 @@ var display_piece = function() {
   set_pixel(curr_piece.x4, curr_piece.y4, curr_piece.color);
 };
 
+var display_next = function() {
+  set_nextbox_pixel(next_piece.x1, next_piece.y1, next_piece.color);
+  set_nextbox_pixel(next_piece.x2, next_piece.y2, next_piece.color);
+  set_nextbox_pixel(next_piece.x3, next_piece.y3, next_piece.color);
+  set_nextbox_pixel(next_piece.x4, next_piece.y4, next_piece.color);
+};
 
 // =============================== Piece movement functions ===============================
 
@@ -378,6 +404,25 @@ var lateral_move = function(dir) {
 };
 
 
+// =============================== UI Updators ===============================
+
+var update_game_status = function(status) {
+  document.getElementById('gi-status').innerHTML = status;
+};
+
+var update_game_prog = function() {
+  document.getElementById('gi-level').innerHTML = 'Level: ' + level;
+  document.getElementById('gi-score').innerHTML = 'Score: ' + score;
+};
+
+var update_game_info = function() {
+  clear_nextbox();
+  display_next();
+  update_game_prog();
+  update_game_status('Game in progress');
+};
+
+
 // =============================== Game progression functions ===============================
 
 
@@ -415,6 +460,7 @@ var game_over = function() {
   document.getElementsByClassName('game_start')[0].innerHTML = 'Press Space to play again';
   clearTimeout(gravity_timer);
   game_started = false;
+  update_game_status('Game over');
 };
 
 // Main function that loops while game is in progress
@@ -426,6 +472,7 @@ var play_game = function() {
       getNewPiece();
     display_piece();
     if (debugging) console.log(curr_piece);
+    update_game_info();
     gravity_timer = setTimeout(do_gravity, get_fall_time());
   }
 };
@@ -455,29 +502,31 @@ var button_press = function(e) {
 
   if (Date.now() - time_piece_created > 500) //half sec grace period
     switch(e.code) {
-      case 'Escape':
-        game_over();
-        break;
-      case 'ArrowLeft':
-      case 'ArrowRight':
-      case 'KeyA':
-      case 'KeyD':
-        lateral_move(e.code);
-        break;
-      case 'KeyW':
-      case 'ArrowUp':
-        rotate_piece();
-        break;
-      case 'ArrowDown':
-      case 'KeyS':
-        score += 2*level;
-        gravity();
-        break;
-      case 'Space':
-        gravity_until_floor();
-        break;
-      case 'KeyP':
-        is_paused = true;
+    case 'Escape':
+      game_over();
+      break;
+    case 'ArrowLeft':
+    case 'ArrowRight':
+    case 'KeyA':
+    case 'KeyD':
+      lateral_move(e.code);
+      break;
+    case 'KeyW':
+    case 'ArrowUp':
+      rotate_piece();
+      break;
+    case 'ArrowDown':
+    case 'KeyS':
+      score += 2*level;
+      gravity();
+      break;
+    case 'Space':
+      gravity_until_floor();
+      break;
+    case 'KeyP':
+      clearTimeout(gravity_timer);
+      is_paused = true;
+      update_game_status('Game paused');
     }
 };
 
