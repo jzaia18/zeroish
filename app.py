@@ -135,6 +135,24 @@ def avatar():
         flash("Upload failed")
     return redirect(url_for ('profile') )
 
+@app.route("/search")
+def search():
+  logged = False
+  if 'username' in session:
+    logged = True
+  return render_template('search.html', logged=logged)
+
+@app.route("/results", methods=['POST'])
+def results():
+  logged = False
+  if 'username' in session:
+    logged = True
+  if 'query' in request.form:
+    query = request.form['query']
+    return render_template('results.html', query=query, results=user.search(query), logged=logged)
+  else:
+    return '-1'
+
 if __name__ == "__main__":
     db = sqlite3.connect('data/database.db')
     c = db.cursor()

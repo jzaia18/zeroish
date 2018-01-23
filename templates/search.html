@@ -1,0 +1,17 @@
+{% extends "template.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div>
+  <h2 class="text-center"> User Lookup </h2>
+  <div class="modal-body row">
+    <div class="col-md-4 container login">
+      <form method="POST" action="/results">
+	      <div class="form-group">
+          <input name="query" type="text" class="form-control" placeholder="Enter username">
+	      </div>
+	      <input class="btn btn-info btn-block" type="submit" value="Search">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
