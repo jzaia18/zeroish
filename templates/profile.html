@@ -1,11 +1,48 @@
 {% extends "template.html" %}
 {% block title %}{{ user }}'s Profile{% endblock %}
 {% block content %}
-<div style="text-align: center">
-  <h2> {{ user }}'s Profile </h2>
   <br>
-  <div style="padding-left: 50px;">
-    <img src="data:image/jpg;base64,{{ image }}">
-  </div>
-</div>
+     <div class="container">
+       <div class="row">
+
+         <div class="col">
+             <h2>{{ user }}'s Profile </h2>
+              <img src="data:image/jpg;base64,{{ image }}" width=100%>
+         </div>
+
+         <div class="col">
+             <h2> {{ user }}'s Last Scores </h2>
+             <table>
+               <tr>
+                 <th></th>
+               </tr>
+               <tr>
+                 <td>{{ score1 }}</td>
+               </tr>
+               <tr>
+                 <td>{{ score2 }} </td>
+               </tr>
+               <tr>
+                 <td>{{ score3 }}</td>
+               </tr>
+               <tr>
+                 <td>{{ score4 }}</td>
+             </tr>
+             <tr>
+               <td>{{ score5 }}</td>
+           </tr>
+             </table>
+           </div>
+         </div>
+       </div>
+     </div>
+
+
+
+
+
+
+
+
+
 {% endblock %}
