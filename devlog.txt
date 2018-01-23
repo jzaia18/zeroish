@@ -93,6 +93,45 @@ Added many features to snake, and relocated some files
 
 cynthiaC, zaiaJ -- 2018-01-23 11:33:32
 Update UI for Tetris
-adeeburR -- 2018-01-23 12:55:14
-updated profile and navbar
 
+jakeZ -- 2018-01-23 12:29:04
+Updated README
+
+jakeZ -- 2018-01-23 12:46:04
+Fixed a scoring bug in tetris
+
+jakeZ -- 2018-01-23 12:51:43
+Updated tetros ajax route
+
+ishtiaqueM -- 2018-01-23 12:49:01
+Added UI and other features to snek
+
+adeeburR -- 2018-01-23 12:55:21
+Updated profile page and navbar
+
+adeeburR -- 2018-01-23 13:33:02
+Updated leaderboard pages
+
+cynthiaC -- 2018-01-23 13:34:17
+Add homepage
+
+ishtiaqueM -- 2018-01-23 13:38:49
+Fixed several bugs
+
+cynthiaC -- 2018-01-23 14:01:25
+Add picture to homepage
+
+cynthiaC, jakeZ -- 2018-01-23 14:30:25
+Clean up homepage
+
+adeeburR -- 2018-01-23 14:42:39
+Added search feature
+
+ishtiaqueM -- 2018-01-23 14:47:44
+Fixed bug in snek involving the timer
+
+ishtiaqueM -- 2018-01-23 15:08:52
+Added tetris piece obstacles to snek
+
+jakeZ -- 2018-01-23 15:23:06
+Pushed updated design doc
