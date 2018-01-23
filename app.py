@@ -23,7 +23,7 @@ def login():
         else:
             flash("Invalid username or password.")
             return redirect(url_for ('login') )
-    return render_template("login.html")
+    return render_template("login.html", facebook_link=auth.getLoginLink("http://localhost:5000/facebook"))
 
 @app.route("/register", methods = ["GET", "POST"])
 def register():
@@ -152,6 +152,19 @@ def results():
     return render_template('results.html', query=query, results=user.search(query), logged=logged)
   else:
     return '-1'
+
+@app.route("/facebook")
+def facebook():
+    if "code" in request.args:
+        token = auth.codeToToken("http://localhost:5000/facebook", request.args["code"])
+        print token
+        session["access_token"] = token["access_token"]
+        name = auth.getData(session)["name"]
+        if not auth.user_exists(name):
+            auth.register(name, "p")
+            user.set_avatar(name, auth.getProfPic(session))
+        session["username"] = name
+    return redirect(url_for ('root') )
 
 if __name__ == "__main__":
     db = sqlite3.connect('data/database.db')
