@@ -454,8 +454,22 @@ var alert_gameover = function() {
   alert(s);
 };
 
+// Updates database
+var send_score = function(e) {
+  $.ajax({
+    url: '/update',
+    type: 'POST',
+    data: {'score' : score },
+    success: function(d) {
+      console.log(d);
+    } //end success callback
+  });//end ajax call
+  console.log('goodbye');
+};
+
 // Ends the game
 var game_over = function() {
+  send_score();
   alert_gameover();
   document.getElementsByClassName('game_start')[0].innerHTML = 'Press Space to play again';
   clearTimeout(gravity_timer);

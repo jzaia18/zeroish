@@ -47,4 +47,4 @@ if __name__ == '__main__':
     print 'Attempting to login with user, invalid:', authenticate('user', 'invalid')
     print 'Attempting to login with user, password:', authenticate('user', 'user')
     print 'Attempting to create account user, password:', register('test', 'test')
-    print 'Attempting to create account user, password:', register('w', 'w')
+    print 'Attempting to create account user, password:', register('dummy', 'dummy')

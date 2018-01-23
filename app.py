@@ -92,8 +92,9 @@ def leaderboard():
 def update():
     if 'username' in session:
         if 'score' in request.form:
-            return score.add_score(request.form['score'])
-    return False
+            score.add_score(session['username'], request.form['score'])
+            return '0'
+    return '-1'
 
 
 @app.route("/avatar", methods=['POST'])

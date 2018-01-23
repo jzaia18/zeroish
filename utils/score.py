@@ -7,6 +7,7 @@ def add_score(user, score):
     highscore = get_highscore(user)
     average = get_average(user)
     numplayed = get_numplayed(user)
+    score = int(score)
 
     #update latest 5 scores
     if len(scores) == 5:
@@ -15,7 +16,7 @@ def add_score(user, score):
     else:
         scores.append(score)
     updated_scores = repr(scores)
-    db.cursor().execute('UPDATE users SET scores = \'%s\' WHERE username="%s"' % (updated_scores, user))
+    db.cursor().execute('UPDATE users SET scores = "%s" WHERE username="%s"' % (updated_scores, user))
 
     #update highscore if neccessary
     if score > highscore:
@@ -37,7 +38,6 @@ def get_scores(user):
     db = sqlite3.connect(f)
     user_info = db.cursor().execute('SELECT scores FROM users WHERE username = "%s";' % ( user )).fetchall()
     db.close()
-    print eval(user_info[0][0])
     return eval(user_info[0][0])
 
 def get_highscore(user):
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, hashed_pass TEXT, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC, avatar BLOB);")
     db.commit()
     db.close()
-    users = ['user', 'test', 'w']
+    users = ['user', 'test', 'dummy']
     for user in users:
         print get_scores(user)
         print get_highscore(user)
