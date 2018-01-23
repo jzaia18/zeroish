@@ -76,11 +76,6 @@ function loop(){
     }
 }
 
-//sets up main part of map
-
-
-
-
 function draw_snek() {
   draw(snek_posx,snek_posy,"snek")
 }
