@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="static/foundation.min.css" type="text/css"/>
-    <link rel="stylesheet" href="static/tetris.css" type="text/css"/>
-
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.min.js"
-      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-      crossorigin="anonymous"></script>
-    <script src="static/foundation.min.js"></script>
-
-    <title> Tetromino </title>
-  </head>
-
-  <body>
-    <center> <!-- this is temp -->
-      <div class="game">
-        <div class="board">
-          {% for i in range(20) %} <div class="grid-x">
-          {% for j in range(10) %} <div class="small-1 cell pixel" id="xy{{j}}-{{i}}"> </div>
-          {% endfor %} </div>
-          {% endfor %}
-        </div>
-        <div class="game_start"> Press Space to start </div>
-      </div>
-    </center>
-    <script src="static/tetris.js"></script>
-  </body>
-</html>
+{% extends "template.html" %}
+{% block title %}Tetromino{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/tetris.css') }}">
+{% endblock %}
+{% block content %}
+<center>
+  <div class="game">
+    <div class="board">
+      {% for i in range(20) %} <div class="row">
+      {% for j in range(10) %} <div class="pixel" id="xy{{j}}-{{i}}"> </div>
+      {% endfor %} </div>
+      {% endfor %}
+    </div>
+    <div class="game_start"> Press Space to start</div>
+  </div>
+</center>
+<script src="{{ url_for('static',filename='js/tetris.js') }}"></script>
+{% endblock %}

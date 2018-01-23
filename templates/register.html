@@ -1,0 +1,31 @@
+{% extends "template.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div>
+  <h2 class="text-center"> Create Account </h2>
+  <br>
+  <div class="modal-body row">
+    <div id="register_div" class="col-md-4 container login">
+      <form method="POST" action="/register">
+        <div class="form-group">
+          Username
+          <input type="text" class="form-control" name="user" placeholder="Enter a Username" required>
+        </div>
+        <div class="form-group">
+          Password
+          <input id="pass" type="password" class="form-control" name="password" placeholder="Enter password" required>
+        </div>
+        <div class="form-group">
+          Confirm password
+          <input id="confirm" type="password" class="form-control" placeholder="Retype password" required>
+        </div>
+        <button id="register" class="btn btn-primary btn-block" type="submit" value="create">Submit</button>
+      </form>
+      <p style="padding-top: 10px;">Already have an account? Back to
+        <a href="/login">Login!</a>
+      </p>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static',filename='js/register.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    {% block styles %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item navbar-center" style="top: 0px;">
+          <a href="/"><img src="{{ url_for('static',filename='img/logo.png') }}" alt="logo" height="75px"></a>
+        </li>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/playgame">Tetris</a>
+          </li>
+        </div>
+      </ul>
+      {% if logged %}<li class="nav-item navbar-right active">
+        <a class="btn nav-link-success btn-outline-danger" href="/logout">Logout</a>
+      </li>{% else %}<li class="nav-item navbar-right active">
+        <a class="btn nav-link-success btn-outline-info " href="/login">Login</a>
+      </li>{% endif %}
+    </nav>
+    <br>
+    <br>
+    <center>
+      <div class="content">
+        <br>
+        {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+        <center><div class="alert alert-info">{{ message }}</div></center><br>
+        {% endfor %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+      </div>
+    </center>
+
+    <div class="footer">
+      Zeroish — Cynthia Cheng, Ishtiaque Mahdi, Adeebur Rahman, Jake Zaia<br>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js' ) }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js' ) }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js' ) }}"></script>
+  </body>
+
+</html>

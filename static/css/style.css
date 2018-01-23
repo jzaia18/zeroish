@@ -1,0 +1,89 @@
+body {
+    padding-top: 10px;
+    min-height: 75rem;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url("../img/pattern.png");
+    background-position: center top;
+    background-attachment: fixed;
+    font-family: 'Lato', sans-serif;
+    text-align: justify;
+}
+
+.login{
+    background-color: #DCEAED;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.content{
+    text-align: left;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.form-stuff{
+    background-color: #DCEAED;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.footer {
+    font-size: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #7aa2b3;
+    color: white;
+    text-align: center;
+}
+
+h1{
+    color: #FF545C;
+}
+
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+a{
+    color: #FF545C;
+}
+
+ul{
+    list-style-type: none;
+}
+
+li {
+    list-style-type: none;
+
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #325568;
+    text-decoration: none;
+    background-color: #325568;  /*change color of links in drop down here*/
+    list-style-type: none;
+
+}
+
+/* navbar */
+.navbar-inverse {
+    background-color: #325568;
+    border-color: #325568;
+}
+
+nav-item {
+    margin-top: 0px;
+}
+
+html {
+    overflow: hidden;
+}

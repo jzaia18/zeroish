@@ -1,49 +1,25 @@
-<html>
-  <head>
-    <title>
-    Login to Tetris!
-    </title><br>
-  </head>
-  <body>
-    <center>
-    <h1>Login!</h1>
-   {% set messages = get_flashed_messages() %}
-   {% for msg in messages %}
-   {{ msg }}
-   {% endfor %}
-     <form method="POST">
-       Username:
-       <input type="text" name="username">
-       <br>
-       <br>
-       Password:
-       <input type="password" name="password">
-       <br>
-       <br>
-       <br>
-       <center>
-         <input type="submit" name="login" value="Login" style="width:150px; height:30px;">
-       </center>
-     </form>
-
-     <br>
-     <br>
-     <form method = 'GET' action = '/acc'>
-       <center>
-         <h1>Create A New Account!</h1>
-         <input type="submit" name="create" value="Create an account" style="width:150px; height:30px;">
-       </center>
-     </form>
-     <br>
-
-     <form method = 'GET' action = '/playgame'>
-       <center>
-         <h1>Demo of Tetris</h1>
-         <input type="submit" name="run" value="Tetris Demo" style="width:150px; height:30px;">
-       </center>
-     </form>
-     <br>
-
-   </center>
- </body>
- </html>
+{% extends "template.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div>
+  <h2 class="text-center"> Log In </h2>
+  <div class="modal-body row">
+    <div class="col-md-4 container login">
+      <form method="POST" action="/login">
+	      <div class="form-group">
+          Username
+          <input name="user" type="text" class="form-control" placeholder="Enter your username" required>
+	      </div>
+	      <div class="form-group">
+          Password
+          <input name="password" type="password" class="form-control" placeholder="Enter password" required>
+	      </div>
+	      <input class="btn btn-info btn-block" type="submit" value="Login">
+      </form>
+      <p style="padding-top: 10px;">Don't have an account? Create one
+	      <a href="/register">Here!</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "template.html" %}
+{% block title %}{{ user }}'s Profile{% endblock %}
+{% block content %}
+<div style="text-align: center">
+  <h2> {{ user }}'s Profile </h2>
+  <br>
+  <div style="padding-left: 50px;">
+    <img src="data:image/jpg;base64,{{ image }}">
+  </div>
+</div>
+{% endblock %}
