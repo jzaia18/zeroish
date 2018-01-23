@@ -1,7 +1,7 @@
 adeeburR -- 2017-12-15 14:35:47
 created basic app structure
 
-cynthiaC, ishM, adeeburR, jakeZ -- 2017-12-21 23:15:12
+cynthiaC, ishtiqueM, adeeburR, jakeZ -- 2017-12-21 23:15:12
 created design document
 
 jakeZ -- 2018-01-02 19:19:08
@@ -19,13 +19,13 @@ added piling mechanic
 jakeZ -- 2018-01-10 22:50:56
 added basic tetromino rotation
 
-ishM -- 2018-01-11 02:49:45
+ishtiaqueM -- 2018-01-11 02:49:45
 started work on homepage, login, and register
 
 jakeZ -- 2018-01-12 12:43:51
 fixed illegal tetromino rotation
 
-jakeZ -- 2018-01-13 15:55:29
+cynthiaC, jakeZ -- 2018-01-13 15:55:29
 added faster gravity feature and instant placement feature
 
 jakeZ -- 2018-01-17 14:48:05
@@ -34,3 +34,62 @@ added utility functions for placement overlay
 adeeburR -- 2018-01-17 21:50:06
 updated README
 
+ishtiaqueM -- 2018-01-17 14:48:10
+Added account creation
+
+cynthiaC, jakeZ -- 2018-01-19 14:48:56
+Added tetris levelling and pausing
+
+cynthiaC, jakeZ -- 2018-01-22 18:43:55
+Added better levelling mechanics
+
+jakeZ -- 2018-01-22 18:43:55
+Commented up tetris.js
+
+adeeburR -- 2018-01-22 20:19:12
+Beautified front end
+
+adeeburR -- 2018-01-22 20:56:44
+Fixed a bug involving scrolling
+
+ishtiaqueM -- 2018-01-22 21:2:02
+Created profile page
+
+ishtiaqueM -- 2018-01-22 21:29:55
+Created highscores page
+
+cynthiaC, zaiaJ -- 2018-01-22 22:22:09
+Implemented basic UI for tetris
+
+ishtiaqueM -- 2018-01-23 00:17:12
+Implemented basic layout of snake game
+
+adeeburR -- 2018-01-23 00:37:13
+Updated profile and leaderboard pages
+
+adeeburR -- 2018-01-23 01:19:03
+Added ajax calls for tetris scores
+
+ishtiaqueM -- 2018-01-23 01:29:47
+Added structure to snake game
+
+adeeburR -- 2018-01-23 01:35:18
+Fixed issues with profile page
+
+ishtiqueM -- 2018-01-23 03:40:19
+Finished basic game functionality
+
+ishtiaqueM -- 2018-01-23 09:30:01
+Updated grid
+
+adeeburR -- 2018-01-23 09:38:28
+Made changes to routing to adjust for snake
+
+adeeburR -- 2018-01-23 10:15:42
+Updated logo location
+
+ishtiaqueM -- 2018-01-23 11:01:20
+Added many features to snake, and relocated some files
+
+cynthiaC, zaiaJ -- 2018-01-23 11:33:32
+Update UI for Tetris
