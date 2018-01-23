@@ -67,3 +67,7 @@
     padding: 1vw;
     line-height: 0vw;
 }
+
+html {
+    overflow: hidden;
+}
