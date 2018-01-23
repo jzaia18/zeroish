@@ -12,14 +12,9 @@
 }
 
 .board {
-    height: 40vw;
-    width: 20vw;
+    height: 70.3vh;
+    width: 35.3vh;
     background: #dddddd;
-    margin: 0 auto;
-}
-
-.miniboard {
-    width: 8vw;
     margin: 0 auto;
 }
 
@@ -29,43 +24,62 @@
 }
 
 .pixel {
-    height: 2vw;
-    width: 2vw;
+    height: 3.5vh;
+    width: 3.5vh;
     background: #999999;
     border: 1px solid black;
 }
 
 .game_start {
     text-align: center;
-    background: lightsteelblue;
+    background: rgba(122,162,179,.5);;
     border: 1px solid gray;
     border-radius: 5px;
     height: auto;
-    width: 20vw;
-    font-size: 2vw;
+    width: 35.3vh;
+    font-size: 2vh;
     margin: 0 auto;
 }
 
 .next_piece {
-    height: 6vw;
-    width: 10vw;
-    background: rgba(176,196,222,.5);
+    height: 12vh;
+    width: 20vh;
+    background: rgba(122,162,179,.5);
     border: 1px solid gray;
     border-radius: 5px;
     text-align: center;
-    font-size: 1.5vw;
+    font-size: 2.5vh;
+}
+
+.miniboard {
+    width: 14vh;
+    margin: 0 auto;
 }
 
 .game_info {
-    height: auto;
-    width: 10vw;
-    background: rgba(176,196,222,.5);
+    height: 14vh;
+    width: 20vh;
+    background: rgba(122,162,179,.5);
     border: 1px solid gray;
     border-radius: 5px;
     text-align: left;
-    font-size: 1vw;
-    padding: 1vw;
-    line-height: 0vw;
+    font-size: 2vh;
+    padding: 1vh;
+}
+
+p {
+    margin: 0;
+}
+
+.controls {
+    height: 20vh;
+    width: 20vh;
+    background: rgba(122,162,179,.5);
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 1.5vh;
+    padding: 1vh;
 }
 
 html {

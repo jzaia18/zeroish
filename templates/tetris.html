@@ -9,12 +9,12 @@
     <tr>
       <td class="board_container">
 
-        <div class="board">
-          {% for i in range(20) %} <div class="row">
-          {% for j in range(10) %} <div class="pixel" id="xy{{j}}-{{i}}"> </div>
-          {% endfor %} </div>
+        <table class="board">
+          {% for i in range(20) %} <tr class="row">
+          {% for j in range(10) %} <td class="pixel" id="xy{{j}}-{{i}}"> </td>
+          {% endfor %} </tr>
           {% endfor %}
-        </div>
+        </table>
         <div class="game_start"> Press Space to start</div>
 
       </td>
@@ -35,7 +35,15 @@
           <p id="gi-score">Score: 0</p>
           <p id="gi-status">Game not started</p>
         </div>
-
+        <div class="controls">
+          <h6> Controls </h6>
+          P: Pause/unpause <br />
+          ←/→ or A/D: Left/right <br />
+          ↑/W: Rotate Piece <br />
+          ↓/S: Accelerate piece <br />
+          Space: Force piece down <br />
+          Esc: Quit
+        </div>
       </td>
     </tr>
   </table>
