@@ -40,26 +40,26 @@ var main = function(){
   setup();
   //updater fxn
   inital = setInterval(loop, time)
-}
+};
 
 var reset = function(){
   location.reload();
-}
+};
 
 
 var get_id = function(x,y){
   return document.getElementById(x+"-"+y);
-}
+};
 
 var get_class = function(x,y){
     return get_id(x,y).getAttribute("class");
-}
+};
 
 var set_class = function(x,y,claz){
   if(x != null && y != null){
         get_id(x,y).setAttribute("class", claz);
   }
-}
+};
 
 var update_game_prog = function() {
   document.getElementById('gi-level').innerHTML = 'Level: ' + level;
@@ -83,7 +83,17 @@ var setup = function(){
   draw_snek();
   draw_fruit();
 //  poof_tetris();//implement later
-}
+};
+
+var lvl = function(){
+  if ((score > level*200) && (level < 10)){
+    level += 1;
+    clearInterval(inital);
+    time = time-5;
+    inital = setInterval(loop, time);
+    }
+  };
+
 
 var loop = function(){
     if(playing && !game_over){
@@ -92,16 +102,16 @@ var loop = function(){
       //this fxn stops the updater (setinterval)
         clearInterval(inital);
     }
-}
+};
 
 var draw_snek= function() {
   draw(snek_posx,snek_posy,"snek")
-}
+};
 
 var draw = function(x,y,type){
   var store = document.getElementById(x+"-"+y);
   return store.setAttribute("class",type);
-}
+};
 
 var draw_fruit = function(){
       //check if the apple exist first
@@ -118,7 +128,7 @@ var draw_fruit = function(){
       set_class(temp_apple_posx, temp_apple_posy, "apple");
       apple_posx = temp_apple_posx;
       apple_posy = temp_apple_posy;
-}
+};
 
 //updates tail position based on array position
 var tail = function(){
@@ -128,7 +138,7 @@ var tail = function(){
       }
       tail_posx[0] = snek_posx;
       tail_posy[0] = snek_posy;
-}
+};
 
 // Displays gameover message
 var alert_gameover = function() {
@@ -215,8 +225,9 @@ var update = function(){
           len += snek_grow;
       }
       update_game_status(playing,game_over);
-
-}
+      console.log(time);
+      lvl();
+};
 
 // Updates database
 var send_score = function(e) {
@@ -232,4 +243,4 @@ var send_score = function(e) {
 };
 
 //let's play snek
-main()
+main();
