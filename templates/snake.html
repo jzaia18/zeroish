@@ -18,26 +18,28 @@
   {% endif %}
   {% endfor %}
   {% endfor %}
-  </table></td>
-
-<td>
+</table></td></center>
+<td class="move"><div class="space">
   <div class="game_info">
     <p> <b><u>Game info:</u></b> </p>
     <p id="gi-level">Level: 0</p>
     <p id="gi-score">Score: 0</p>
     <p id="gi-status">Game not started</p>
-  </div>
+  </div>&nbsp
+
   <div class="controls">
     <h6> <b><u>Controls </u></b></h6>
-    P or Spacebar: Pause/unpause <br />
+    Any Key: Start Game / Unpause<br />
+    P or Spacebar: Pause <br />
     ←/→ or A/D: Left/right <br />
     ↑/W: Up <br />
     ↓/S: Down <br />
   </div>
-</td>
+
+</div></td>
 
 </tr></table>
-</center>
+
 
 
 <script src="{{ url_for('static',filename='js/snek.js') }}"></script>

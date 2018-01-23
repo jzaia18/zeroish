@@ -67,10 +67,10 @@ var update_game_prog = function() {
 };
 
 var update_game_status = function(playing,game_over) {
-  if (!playing){
+  if (playing){
     document.getElementById('gi-status').innerHTML = "Game is playing";
   }
-  if (playing){
+  if (!playing){
     document.getElementById('gi-status').innerHTML = "Game is paused";
   }
   if (game_over){
@@ -132,6 +132,7 @@ var tail = function(){
 
 // Displays gameover message
 var alert_gameover = function() {
+  update_game_status(playing,true);
   var s = "Game over.\n\n";
   s+= "You made it to level " + level + ",\n";
   s+= "You scored " + score + " points!\n";
@@ -157,11 +158,13 @@ window.addEventListener("keydown", function key(event){
       //if spacebar is pressed pause game
       if(!playing)
           playing = true;
-      else if(key == 32)
+      else if(key == 32 || key == 80)
           playing = false;
       if((playing == false && game_over == true) && key == 32){
         reset();
+
       }
+      update_game_status(playing,game_over);
 });
 
 var update = function(){
@@ -187,6 +190,7 @@ var update = function(){
         // this checks for collision by checking of snek lands on a snek cell
           if((get_class(snek_posx, snek_posy) == "snek")){
               game_over = true;
+              update_game_status(playing,game_over);
               alert_gameover();
               send_score();
               break;
@@ -196,6 +200,7 @@ var update = function(){
       if(get_class(snek_posx, snek_posy) == "border"){
           set_class(snek_posx,snek_posy,"border")
           game_over = true;
+          update_game_status(playing,game_over);
           alert_gameover();
           send_score();
       }
@@ -209,7 +214,7 @@ var update = function(){
           draw_fruit();
           len += snek_grow;
       }
-      update_game_status();
+      update_game_status(playing,game_over);
 
 }
 
