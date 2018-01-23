@@ -35,7 +35,7 @@ def register():
             return redirect(url_for ('login') )
         else:
             flash("Username already in use.")
-            return redirect(url_for ('regiser') )
+            return redirect(url_for ('register') )
     return render_template("register.html")
 
 @app.route('/logout')
