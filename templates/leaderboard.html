@@ -1,0 +1,56 @@
+{% extends "template.html" %}
+{% block title %}Highscores{% endblock %}
+{% block content %}
+<br>
+<div class="container">
+  <div class="row">
+
+    <div class="col">
+      <h2> All Time Highscore Leaderboard</h2>
+      <br>
+      <div class="row">
+        <div class="col">
+          <h4>User</h4>
+        </div>
+        <div class="col">
+          <h4>Score</h4>
+        </div>
+      </div>
+      {% for data in highscores %}
+      <div class="row">
+        <div class="col">
+          <a href="/profile?user={{ data[0] }}"><h4>{{ data[0] }}</h4></a>
+        </div>
+        <div class="col">
+          <h4>{{ data[1] }}</h4>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="col">
+      <h2> All Time Average Leaderboard </h2>
+      <br>
+      <div class="row">
+        <div class="col">
+          <h4>User</h4>
+        </div>
+        <div class="col">
+          <h4>Score</h4>
+        </div>
+      </div>
+      {% for data in averages %}
+      <div class="row">
+        <div class="col">
+          <a href="/profile?user={{ data[0] }}"><h4>{{ data[0] }}</h4></a>
+        </div>
+        <div class="col">
+          <h4>{{ data[1]|int }}</h4>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}
