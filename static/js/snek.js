@@ -12,6 +12,10 @@ var snek_grow = 1;
 var tail_posx = [snek_posx];
 var tail_posy = [snek_posy];
 //position of fruit
+//randomness needed for apples
+var random = function(min,max){
+  return Math.floor(Math.random()*(max-min) + min);
+}
 var apple_posx = random(1,length-1);
 var apple_posy = random(1,height-1);
 //is the game currently playing? Use for play/pause
@@ -28,9 +32,10 @@ var len = 0;
 var temp_dir = dir;
 //keeps track of user score
 var score = 0;
+var level = 1;
 
 //main function that runs
-function main(){
+var main = function(){
   //preliminary setup fxn
   setup();
   //updater fxn
@@ -41,33 +46,46 @@ var reset = function(){
   location.reload();
 }
 
-//randomness needed for apples
-function random(min,max){
-  return Math.floor(Math.random()*(max-min) +min);
-}
 
-function get_id(x,y){
+var get_id = function(x,y){
   return document.getElementById(x+"-"+y);
 }
 
-function get_class(x,y){
+var get_class = function(x,y){
     return get_id(x,y).getAttribute("class");
 }
 
-function set_class(x,y,claz){
+var set_class = function(x,y,claz){
   if(x != null && y != null){
         get_id(x,y).setAttribute("class", claz);
   }
 }
 
-function setup(){
+var update_game_prog = function() {
+  document.getElementById('gi-level').innerHTML = 'Level: ' + level;
+  document.getElementById('gi-score').innerHTML = 'Score: ' + score;
+};
+
+var update_game_status = function(playing,game_over) {
+  if (!playing){
+    document.getElementById('gi-status').innerHTML = "Game is playing";
+  }
+  if (playing){
+    document.getElementById('gi-status').innerHTML = "Game is paused";
+  }
+  if (game_over){
+    document.getElementById('gi-status').innerHTML = "Game has ended";
+  }
+};
+
+var setup = function(){
   //make_map();
   draw_snek();
   draw_fruit();
 //  poof_tetris();//implement later
 }
 
-function loop(){
+var loop = function(){
     if(playing && !game_over){
         update();
     }else if(game_over){
@@ -76,16 +94,16 @@ function loop(){
     }
 }
 
-function draw_snek() {
+var draw_snek= function() {
   draw(snek_posx,snek_posy,"snek")
 }
 
-function draw(x,y,type){
+var draw = function(x,y,type){
   var store = document.getElementById(x+"-"+y);
   return store.setAttribute("class",type);
 }
 
-function draw_fruit(){
+var draw_fruit = function(){
       //check if the apple exist first
       var no_exist = true;
       //find a radom non-occupied location for apple
@@ -100,20 +118,29 @@ function draw_fruit(){
       set_class(temp_apple_posx, temp_apple_posy, "apple");
       apple_posx = temp_apple_posx;
       apple_posy = temp_apple_posy;
-  }
+}
 
-  //updates tail position based on array position
-  function tail(){
+//updates tail position based on array position
+var tail = function(){
       for(var i = len; i > 0; i--){
           tail_posx[i] = tail_posx[i-1];
           tail_posy[i] = tail_posy[i-1];
       }
       tail_posx[0] = snek_posx;
       tail_posy[0] = snek_posy;
-  }
+}
+
+// Displays gameover message
+var alert_gameover = function() {
+  var s = "Game over.\n\n";
+  s+= "You made it to level " + level + ",\n";
+  s+= "You scored " + score + " points!\n";
+  s+= "Press spacebar to play again!"
+  alert(s);
+};
 
 
-  window.addEventListener("keydown", function key(event){
+window.addEventListener("keydown", function key(event){
       //W or up arrow set direction up
       var key = event.keyCode;
       if(dir != 3 && (key == 119 || key == 87 || key == 38))
@@ -135,11 +162,12 @@ function draw_fruit(){
       if((playing == false && game_over == true) && key == 32){
         reset();
       }
-  });
+});
 
-  function update(){
+var update = function(){
       //set the actual direction to the direction given by keypress
       dir = temp_dir;
+      update_game_prog(playing,game_over);
       set_class(apple_posx, apple_posy, "apple");
       //makes non snake cells back to background cells
       set_class(tail_posx[len], tail_posy[len], "back");
@@ -159,21 +187,44 @@ function draw_fruit(){
         // this checks for collision by checking of snek lands on a snek cell
           if((get_class(snek_posx, snek_posy) == "snek")){
               game_over = true;
+              alert_gameover();
+              send_score();
               break;
           }
       }
       //snek collsion is being checked via borders
-      if(get_class(snek_posx, snek_posy) == "border")
+      if(get_class(snek_posx, snek_posy) == "border"){
+          set_class(snek_posx,snek_posy,"border")
           game_over = true;
+          alert_gameover();
+          send_score();
+      }
       //sets the new x,y postions of snek on the grid
-      set_class(snek_posx, snek_posy, "snek");
+      if (!game_over){
+        set_class(snek_posx, snek_posy, "snek");
+      }
       //if the snek eats apple, grow it and respawn apple
       if(snek_posx == apple_posx && snek_posy == apple_posy){
-          score += 1;
+          score += 50;
           draw_fruit();
           len += snek_grow;
       }
-  }
+      update_game_status();
 
+}
 
+// Updates database
+var send_score = function(e) {
+  $.ajax({
+    url: '/snake/update',
+    type: 'POST',
+    data: {'score' : score },
+    success: function(d) {
+      console.log(d);
+    } //end success callback
+  });//end ajax call
+  console.log('goodbye');
+};
+
+//let's play snek
 main()

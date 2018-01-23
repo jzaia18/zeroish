@@ -5,17 +5,39 @@
 {% endblock %}
 {% block content %}
 
-<center><table>
-{% for i in range(20)  %} <tr>
-{% for j in range(20) %}
-{% if (j == 0 or i == 0 or j == 20 - 1 or i == 20 - 1) %}
-     <td class="border" id="{{j}}-{{i}}"></td>
-{% else %}
-     <td class="back" id="{{j}}-{{i}}"></td>
-{% endif %}     
-{% endfor %}
-{% endfor %}
-</table></center>
+<center>
+<table><tr><td>
+
+  <table>
+  {% for i in range(20)  %} <tr>
+  {% for j in range(20) %}
+  {% if (j == 0 or i == 0 or j == 20 - 1 or i == 20 - 1) %}
+       <td class="border" id="{{j}}-{{i}}"></td>
+  {% else %}
+       <td class="back" id="{{j}}-{{i}}"></td>
+  {% endif %}
+  {% endfor %}
+  {% endfor %}
+  </table></td>
+
+<td>
+  <div class="game_info">
+    <p> <b><u>Game info:</u></b> </p>
+    <p id="gi-level">Level: 0</p>
+    <p id="gi-score">Score: 0</p>
+    <p id="gi-status">Game not started</p>
+  </div>
+  <div class="controls">
+    <h6> <b><u>Controls </u></b></h6>
+    P or Spacebar: Pause/unpause <br />
+    ←/→ or A/D: Left/right <br />
+    ↑/W: Up <br />
+    ↓/S: Down <br />
+  </div>
+</td>
+
+</tr></table>
+</center>
 
 
 <script src="{{ url_for('static',filename='js/snek.js') }}"></script>

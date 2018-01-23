@@ -8,21 +8,29 @@ body{
 }
 
 td{
-  width: 25px;
-  height: 25px;
-  border: 1px solid black;
+
 }
 
 html {
     overflow: hidden;
 }
 
+.cell{
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
+}
+
 .back{
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
   background-color: black;
 }
 
 .snek{
   background-color: gold;
+  border: 1px solid black;
 }
 
 .apple{
@@ -30,5 +38,30 @@ html {
 }
 
 .border{
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
   background-color: #325568;
+}
+
+.game_info {
+    height: 14;
+    width: 20;
+    background: rgba(122,162,179,.5);
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 2;
+    padding: 1;
+}
+
+.controls {
+    height: 20;
+    width: 20;
+    background: rgba(122,162,179,.5);
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 1.5;
+    padding: 1;
 }
