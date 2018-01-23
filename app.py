@@ -161,7 +161,7 @@ def facebook():
         session["access_token"] = token["access_token"]
         name = auth.getData(session)["name"]
         if not auth.user_exists(name):
-            auth.register(name, "p")
+            auth.register(name, str(int(random.random() * 10000000000)))
             user.set_avatar(name, auth.getProfPic(session))
         session["username"] = name
     return redirect(url_for ('root') )
