@@ -73,5 +73,9 @@ def update():
     return False
 
 if __name__ == "__main__":
+    db = sqlite3.connect('data/database.db')
+    db.cursor().execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, hashed_pass TEXT, scores TEXT, average NUMERIC, highscore NUMERIC, numplayed NUMERIC, avatar BLOB);")
+    db.commit()
+    db.close()
     app.debug = True
     app.run()
