@@ -12,7 +12,10 @@ def register( user, passw):
     db = sqlite3.connect(f)
     with open(avatar) as data:
         encoded = data.read().encode('base64').replace('\n','')
-    db.cursor().execute('INSERT INTO users VALUES ( "%s", "%s", "[]", 0.0, 0, 0, "%s" );' % (user, hashed, encoded) )
+    c = db.cursor()
+    c.execute('INSERT INTO users VALUES ( "%s", "%s", "%s" );' % (user, hashed, encoded) )
+    c.execute('INSERT INTO tetris VALUES ( "%s", "[]", 0.0, 0, 0);' % (user))
+    c.execute('INSERT INTO snek VALUES ( "%s", "[]", 0.0, 0, 0);' % (user))
     db.commit()
     db.close()
     return True
@@ -39,12 +42,11 @@ if __name__ == '__main__':
     avatar = '../static/img/default.png'
     db = sqlite3.connect(f)
     c = db.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, hashed_pass TEXT, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC, avatar BLOB);")
+    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, hashed_pass TEXT, avatar BLOB);")
+    c.execute("CREATE TABLE IF NOT EXISTS tetris (username TEXT PRIMARY KEY, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC);")
+    c.execute("CREATE TABLE IF NOT EXISTS snek (username TEXT PRIMARY KEY, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC);")
     db.commit()
     db.close()
-    print 'Attempting to create account user, password:', register('user', 'user')
-    print 'Attempting to create account user, password:', register('user', 'user')
-    print 'Attempting to login with user, invalid:', authenticate('user', 'invalid')
-    print 'Attempting to login with user, password:', authenticate('user', 'user')
-    print 'Attempting to create account user, password:', register('test', 'test')
-    print 'Attempting to create account user, password:', register('dummy', 'dummy')
+    users = ["Bob", "Adeeb", "Jake", "Cynthia", "Ish", "Gerald", "Mark", "Karina","Dasha", "Brandon","Farah", "Kristina", "Hannah", "Inbar", "Rashawn", "Marcus", "Stanley","Jerry", "Bobby", "George", "David", "Stefan", "Tomas", "Giorgio", "Alex"]
+    for user in users:
+      print 'Attempting to create account "%s":' % (user), register(user, user)

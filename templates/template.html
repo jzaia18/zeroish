@@ -30,16 +30,20 @@
           <li class="nav-item active">
             <a class="nav-link" href="/profile">Profile</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/tetris">Tetris</a>
+          <li class="nav-item active dropdown">
+            <a class="nav-link dropdown-toggle" href="/" data-toggle="dropdown">Play</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/tetris">Tetris</a>
+              <a class="dropdown-item" href="/snake">Snek</a>
+            </div>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/snake">Snek</a>
+          <li class="nav-item active dropdown">
+            <a class="nav-link dropdown-toggle" href="/" data-toggle="dropdown">Leaderboards</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/tetris/leaderboard">Tetris</a>
+              <a class="dropdown-item" href="/snake/leaderboard">Snek</a>
+            </div>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/leaderboard">Leaderboards</a>
-          </li>
-
         </div>
       </ul>
       {% if logged %}<li class="nav-item navbar-right active">

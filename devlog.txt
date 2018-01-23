@@ -93,3 +93,6 @@ Added many features to snake, and relocated some files
 
 cynthiaC, zaiaJ -- 2018-01-23 11:33:32
 Update UI for Tetris
+adeeburR -- 2018-01-23 12:55:14
+updated profile and navbar
+

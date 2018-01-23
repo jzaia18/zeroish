@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, session, request, flash
 import os, sqlite3, random
-from utils import auth, score, user
+from utils import auth, user, tetris, snek
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
@@ -46,14 +46,14 @@ def logout():
 
 #temp for testing
 @app.route("/tetris")
-def tetris():
+def tetrisgame():
     if 'username' in session:
         return render_template("tetris.html", logged=True)
     else:
         return render_template("tetris.html")
 
 @app.route("/snake")
-def snek():
+def snake():
     if 'username' in session:
         return render_template("snake.html", logged=True)
     else:
@@ -78,25 +78,45 @@ def profile():
         return redirect( url_for('root'))
     else:
         return render_template("profile.html", user=username, image=user.get_avatar(username),
-                    latest=score.get_scores(username), highscore=score.get_highscore(username),
-                    average=score.get_average(username), numplayed=score.get_numplayed(username),
+                    tetris_latest=tetris.get_scores(username), tetris_highscore=tetris.get_highscore(username),
+                    tetris_average=tetris.get_average(username), tetris_numplayed=tetris.get_numplayed(username),
+                    snek_latest=snek.get_scores(username), snek_highscore=snek.get_highscore(username),
+                    snek_average=snek.get_average(username), snek_numplayed=snek.get_numplayed(username),
                     logged=True, current_user=current_user)
 
-@app.route("/leaderboard")
-def leaderboard():
+@app.route("/tetris/leaderboard")
+def tetris_leaderboard():
     if 'username' in session:
         logged = True
     else:
         logged = False
-    return render_template("leaderboard.html", logged=logged,
-                           highscores = score.get_highscores(),
-                           averages = score.get_averages())
+    return render_template("leaderboard.html", logged=logged, game="Tetris",
+                           highscores = tetris.get_highscores(),
+                           averages = tetris.get_averages())
 
-@app.route("/update", methods=['POST'])
-def update():
+@app.route("/snake/leaderboard")
+def snake_leaderboard():
+    if 'username' in session:
+        logged = True
+    else:
+        logged = False
+    return render_template("leaderboard.html", logged=logged, game="Snek",
+                           highscores = snek.get_highscores(),
+                           averages = snek.get_averages())
+
+@app.route("/tetris/update", methods=['POST'])
+def tetris_update():
     if 'username' in session:
         if 'score' in request.form:
-            score.add_score(session['username'], request.form['score'])
+            tetris.add_score(session['username'], request.form['score'])
+            return '0'
+    return '-1'
+
+@app.route("/snake/update", methods=['POST'])
+def snake_update():
+    if 'username' in session:
+        if 'score' in request.form:
+            snek.add_score(session['username'], request.form['score'])
             return '0'
     return '-1'
 
@@ -117,7 +137,10 @@ def avatar():
 
 if __name__ == "__main__":
     db = sqlite3.connect('data/database.db')
-    db.cursor().execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, hashed_pass TEXT, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC, avatar BLOB);")
+    c = db.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, hashed_pass TEXT, avatar BLOB);")
+    c.execute("CREATE TABLE IF NOT EXISTS tetris (username TEXT PRIMARY KEY, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC);")
+    c.execute("CREATE TABLE IF NOT EXISTS snek (username TEXT PRIMARY KEY, scores TEXT, average REAL, highscore NUMERIC, numplayed NUMERIC);")
     db.commit()
     db.close()
     app.debug = True
