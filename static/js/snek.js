@@ -445,11 +445,7 @@ var send_score = function(e) {
     url: '/snake/update',
     type: 'POST',
     data: {'score' : score },
-    success: function(d) {
-      console.log(d);
-    } //end success callback
   });//end ajax call
-  console.log('goodbye');
 };
 
 //let's play snek

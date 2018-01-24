@@ -460,11 +460,7 @@ var send_score = function(e) {
     url: '/tetris/update',
     type: 'POST',
     data: {'score' : score },
-    success: function(d) {
-      console.log(d);
-    } //end success callback
   });//end ajax call
-  console.log('goodbye');
 };
 
 // Ends the game
