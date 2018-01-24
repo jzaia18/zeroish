@@ -25,6 +25,9 @@ started work on homepage, login, and register
 jakeZ -- 2018-01-12 12:43:51
 fixed illegal tetromino rotation
 
+cynthiaC -- 2018-01-12 14:43:51
+start writing code for FB API
+
 cynthiaC, jakeZ -- 2018-01-13 15:55:29
 added faster gravity feature and instant placement feature
 
@@ -36,6 +39,9 @@ updated README
 
 ishtiaqueM -- 2018-01-17 14:48:10
 Added account creation
+
+cynthiaC -- 2018-01-18 19:43:51
+got keys for Facebook API, now can have a facebook login, edited developers app a lot to work with localhosts
 
 cynthiaC, jakeZ -- 2018-01-19 14:48:56
 Added tetris levelling and pausing
@@ -57,6 +63,12 @@ Created profile page
 
 ishtiaqueM -- 2018-01-22 21:29:55
 Created highscores page
+
+cynthiaC -- 2018-01-22 22:00:09
+convert api keys to access token to get user information in json dictionaries
+
+cynthiaC -- 2018-01-22 22:10:09
+wrote functions to get user information
 
 cynthiaC, zaiaJ -- 2018-01-22 22:22:09
 Implemented basic UI for tetris
@@ -143,7 +155,7 @@ ishtiaqueM -- 2018-01-23 15:55:14
 updated readme
 
 cynthiaC, adeeburR -- 2018-01-23 15:58:42
-integrated facebook login option
+integrated facebook login option to website
 
 adeeburR -- 2018-01-23 16:17:24
 fixed security flaw in facebook accounts
@@ -156,4 +168,3 @@ fixed weird scrolling bug
 
 adeeburR -- 2018-01-24 00:08:47
 cleaned up facebook methods
-
