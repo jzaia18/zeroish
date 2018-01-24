@@ -1,14 +1,16 @@
 import sqlite3, hashlib, json, os, requests
 f = 'data/database.db'
 avatar = 'static/img/default.png'
+#redirect url for facebook api stuff
+redirect_url = "http://localhost:5000/facebook"
 #the file with our api keys
 KEY_FILE = "keys.json"
 if __name__ == '__main__':
     KEY_FILE = "../keys.json"
 
 if not os.path.isfile(KEY_FILE):
-	print "Missing API KEY file."
-	exit(1)
+    print "Missing API KEY file."
+    exit(1)
 
 api_keys = json.load(open(KEY_FILE))
 app_id = api_keys["app_id"]
@@ -20,10 +22,12 @@ def get_hashed_password(user, passw):
 def register( user, passw ):
     if user_exists(user):
         return False
+
     hashed = get_hashed_password(user, passw)
     db = sqlite3.connect(f)
     with open(avatar) as data:
         encoded = data.read().encode('base64').replace('\n','')
+
     c = db.cursor()
     c.execute('INSERT INTO users VALUES ( "%s", "%s", "%s" );' % (user, hashed, encoded) )
     c.execute('INSERT INTO tetris VALUES ( "%s", "[]", 0.0, 0, 0);' % (user))
@@ -49,54 +53,18 @@ def user_exists(user):
         return True
     return False
 
-def getLoginLink(redirect_url):
-	return """
-https://www.facebook.com/
-v2.11/dialog/oauth?client_id=%s&redirect_uri=%s&scope=user_birthday,email,user_location"""%(
-	app_id, redirect_url)
+def get_facebook_link():
+    return "https://www.facebook.com/v2.11/dialog/oauth?client_id=%s&redirect_uri=%s&scope=user_birthday,email,user_location" %( app_id, redirect_url )
 
-def codeToToken(redirect_url, code):
-	'''
-	Converts a code received after user logs in to an access token.
+def get_access_token(code):
+    url = "https://graph.facebook.com/v2.11/oauth/access_token?client_id=%s&redirect_uri=%s&client_secret=%s&code=%s" %( app_id, redirect_url, app_secret, code )
+    return requests.get(url).json
 
-	We can't grab the access token directly as the facebook graph api
-	stores it in a url fragment, so flask won't be able to access it.
-	'''
+def get_facebook_data(token):
+    return requests.get("https://graph.facebook.com/me?access_token=%s&fields=birthday,location,name,email" % ( token )).json()
 
-	url = """
-https://graph.facebook.com/v2.11/oauth/access_token?
-client_id=%s
-&redirect_uri=%s
-&client_secret=%s
-&code=%s
-"""%( app_id, redirect_url, app_secret, code)
-
-	#urllib2 can't handle \n apparently
-	url = str.join("", url.split("\n"))
-
-	print url
-
-	u = requests.get(url)
-
-	return u.json()
-
-def getData(session):
-	u = requests.get("https://graph.facebook.com/me?access_token=%s&fields=birthday,location,name,email"%(session["access_token"]) )
-
-	return u.json()
-
-def getEmail(session):
-	u = requests.get("https://graph.facebook.com/me?access_token=%s&fields=birthday,location,name"%(session["access_token"]) )
-
-	return u.json()
-
-
-def getProfPic(session):
-	u = requests.get("https://graph.facebook.com/me/picture?access_token=%s&type=large"%(session["access_token"]) )
-
-	return u.content.encode("base64")
-
-
+def get_facebook_pic(token):
+    return requests.get("https://graph.facebook.com/me/picture?access_token=%s&type=large" % ( token )).content.encode("base64")
 
 if __name__ == '__main__':
     f = '../data/database.db'
@@ -110,4 +78,4 @@ if __name__ == '__main__':
     db.close()
     users = ["Bob", "Adeeb", "Jake", "Cynthia", "Ish", "Gerald", "Mark", "Karina","Dasha", "Brandon","Farah", "Kristina", "Hannah", "Inbar", "Rashawn", "Marcus", "Stanley","Jerry", "Bobby", "George", "David", "Stefan", "Tomas", "Giorgio", "Alex"]
     for user in users:
-      print 'Attempting to create account "%s":' % (user), register(user, user)
+        print 'Attempting to create account "%s":' % (user), register(user, user)

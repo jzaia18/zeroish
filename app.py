@@ -4,31 +4,29 @@ from utils import auth, user, tetris, snek
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
+
+def is_logged():
+    return 'username' in session
+
 @app.route("/")
 def root():
-    if 'username' in session:
-        return render_template('home.html', logged=True)
-    else:
-        return render_template('home.html')
+    return render_template('home.html', logged=is_logged())
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
-    if 'username' in session:
-        return redirect(url_for ('root') )
     if request.method == "POST":
         if auth.authenticate(request.form['user'], request.form['password']):
             session['username'] = request.form['user']
             flash("Login Successful")
-            return redirect(url_for ('root') )
         else:
             flash("Invalid username or password.")
             return redirect(url_for ('login') )
-    return render_template("login.html", facebook_link=auth.getLoginLink("http://localhost:5000/facebook"))
+    if 'username' in session:
+        return redirect(url_for ('root') )
+    return render_template("login.html", facebook_link=auth.get_facebook_link(), logged=is_logged())
 
 @app.route("/register", methods = ["GET", "POST"])
 def register():
-    if 'username' in session:
-        return redirect(url_for ('root') )
     if request.method == "POST":
         if auth.register(request.form['user'], request.form['password']):
             flash("Successful Registration")
@@ -36,7 +34,9 @@ def register():
         else:
             flash("Username already in use.")
             return redirect(url_for ('register') )
-    return render_template("register.html")
+    if 'username' in session:
+        return redirect(url_for ('root') )
+    return render_template("register.html", logged=is_logged())
 
 @app.route('/logout')
 def logout():
@@ -47,18 +47,11 @@ def logout():
 #temp for testing
 @app.route("/tetris")
 def tetrisgame():
-    if 'username' in session:
-        return render_template("tetris.html", logged=True)
-    else:
-        return render_template("tetris.html")
+    return render_template("tetris.html", logged=is_logged())
 
 @app.route("/snake")
 def snake():
-    if 'username' in session:
-        return render_template("snake.html", logged=True)
-    else:
-        return render_template("snake.html")
-
+    return render_template("snake.html", logged=is_logged())
 
 @app.route("/profile")
 def profile():
@@ -82,48 +75,39 @@ def profile():
                     tetris_average=tetris.get_average(username), tetris_numplayed=tetris.get_numplayed(username),
                     snek_latest=snek.get_scores(username), snek_highscore=snek.get_highscore(username),
                     snek_average=snek.get_average(username), snek_numplayed=snek.get_numplayed(username),
-                    logged=True, current_user=current_user)
+                    logged=is_logged(), current_user=current_user)
 
 @app.route("/tetris/leaderboard")
 def tetris_leaderboard():
-    if 'username' in session:
-        logged = True
-    else:
-        logged = False
-    return render_template("leaderboard.html", logged=logged, game="Tetris",
+    return render_template("leaderboard.html", logged=is_logged(), game="Tetris",
                            highscores = tetris.get_highscores(),
                            averages = tetris.get_averages())
 
 @app.route("/snake/leaderboard")
 def snake_leaderboard():
-    if 'username' in session:
-        logged = True
-    else:
-        logged = False
-    return render_template("leaderboard.html", logged=logged, game="Snek",
+    return render_template("leaderboard.html", logged=is_logged(), game="Snek",
                            highscores = snek.get_highscores(),
                            averages = snek.get_averages())
 
 @app.route("/tetris/update", methods=['POST'])
 def tetris_update():
-    if 'username' in session:
+    if is_logged():
         if 'score' in request.form:
             tetris.add_score(session['username'], request.form['score'])
             return '0'
-    return '-1'
+    return redirect(url_for ('root') )
 
 @app.route("/snake/update", methods=['POST'])
 def snake_update():
-    if 'username' in session:
+    if is_logged():
         if 'score' in request.form:
             snek.add_score(session['username'], request.form['score'])
             return '0'
-    return '-1'
-
+    return redirect(url_for ('root') )
 
 @app.route("/avatar", methods=['POST'])
 def avatar():
-    if 'username' in session:
+    if is_logged():
         if 'image' in request.files:
             image = request.files['image']
             if image.content_type[:image.content_type.find('/')] == "image":
@@ -137,32 +121,24 @@ def avatar():
 
 @app.route("/search")
 def search():
-  logged = False
-  if 'username' in session:
-    logged = True
-  return render_template('search.html', logged=logged)
+  return render_template('search.html', logged=is_logged())
 
 @app.route("/results", methods=['POST'])
 def results():
-  logged = False
-  if 'username' in session:
-    logged = True
   if 'query' in request.form:
     query = request.form['query']
-    return render_template('results.html', query=query, results=user.search(query), logged=logged)
+    return render_template('results.html', query=query, results=user.search(query), logged=is_logged())
   else:
-    return '-1'
+    return redirect(url_for ('root') )
 
 @app.route("/facebook")
 def facebook():
     if "code" in request.args:
-        token = auth.codeToToken("http://localhost:5000/facebook", request.args["code"])
-        print token
-        session["access_token"] = token["access_token"]
-        name = auth.getData(session)["name"]
+        token = auth.get_access_token(request.args["code"])
+        name = auth.get_facebook_data(token)["name"]
         if not auth.user_exists(name):
             auth.register(name, str(int(random.random() * 10000000000)))
-            user.set_avatar(name, auth.getProfPic(session))
+            user.set_avatar(name, auth.get_facebook_pic(token))
         session["username"] = name
     return redirect(url_for ('root') )
 

@@ -7,14 +7,6 @@ body{
   background-color: lightsteelblue;
 }
 
-td{
-
-}
-
-html {
-    overflow: hidden;
-}
-
 .cell{
   width: 25px;
   height: 25px;

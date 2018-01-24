@@ -138,3 +138,22 @@ Pushed updated design doc
 
 ishtiaqueM -- 2018-01-23 15:39:30
 Added rotation to tetris shaped snek obstacles
+
+ishtiaqueM -- 2018-01-23 15:55:14
+updated readme
+
+cynthiaC, adeeburR -- 2018-01-23 15:58:42
+integrated facebook login option
+
+adeeburR -- 2018-01-23 16:17:24
+fixed security flaw in facebook accounts
+
+cynthiaC -- 2018-01-23 17:24:50
+fixed register route and fixed leaderboard html
+
+adeeburR -- 2018-01-23 23:35:57
+fixed weird scrolling bug
+
+adeeburR -- 2018-01-24 00:08:47
+cleaned up facebook methods
+
