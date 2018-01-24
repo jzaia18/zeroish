@@ -1,0 +1,4 @@
+There weren't many changes to our initial design. We renamed a couple
+of the routes/files to represent what they do in a more concise manner.
+
+We also changed our sitemap to connect all the pages with the navbar.
