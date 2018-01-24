@@ -58,7 +58,7 @@ def get_facebook_link():
 
 def get_access_token(code):
     url = "https://graph.facebook.com/v2.11/oauth/access_token?client_id=%s&redirect_uri=%s&client_secret=%s&code=%s" %( app_id, redirect_url, app_secret, code )
-    return requests.get(url).json
+    return requests.get(url).json()['access_token']
 
 def get_facebook_data(token):
     return requests.get("https://graph.facebook.com/me?access_token=%s&fields=birthday,location,name,email" % ( token )).json()
