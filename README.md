@@ -64,3 +64,10 @@ After installing the dependencies, run:
 `$ python app.py`
 
 Then, in a browser, go to the website at [http://localhost:5000/](http://localhost:5000/) to use the site.
+
+### Test Accounts
+We created some dummy accounts for our website for you to test with:  
+
+* user, password
+* dw, noob
+* stuy, cs
